@@ -1,0 +1,15 @@
+{
+  "draw": 1,
+  "recordsTotal": 57,
+  "recordsFiltered": 57,
+  "data": [
+    {
+        "first_name": "成",
+        "last_name": "然",
+        "position": "121.232323，63.434545",
+        "office": "软件工程师",
+        "start_date": "2017-06-03" },
+        "salary": "1000,0.00" }
+    }
+  ]
+}

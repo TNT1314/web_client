@@ -1,0 +1,271 @@
+<div id="firesafety_query" class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">消防工单查询</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="firesafety_query_table" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>序列号</th>
+                        <th>工单编号</th>
+                        <th>检查日期</th>
+                        <th>工单类型</th>
+                        <th>是否合格</th>
+                        <th>复检状态</th>
+                        <th>工单状态</th>
+                        <th>商户名称</th>
+                        <th>检查人员</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>序列号</th>
+                        <th>工单编号</th>
+                        <th>检查日期</th>
+                        <th>工单类型</th>
+                        <th>是否合格</th>
+                        <th>复检状态</th>
+                        <th>工单状态</th>
+                        <th>商户名称</th>
+                        <th>检查人员</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="firesafety_query_table_tools" type="text/html">
+    <div class="temp_toolbar">
+        <div class="temp_toolar_left">
+            {{if power.see==true}}
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_inf' class="btn btn-block btn-info btn-sm">
+                    <i class="fa fa-search"></i> 查看
+                </button>
+            </div>
+            {{/if}}
+        </div>
+        <div class="temp_toolar_right">
+            <a data-toggle="collapse" data-parent="#accordion" href="#{{model}}_collapseOne">
+                <i class="fa fa-search"></i>高级搜索
+            </a>
+        </div>
+    </div>
+    <div id="{{model}}_collapseOne" class="panel-collapse collapse collapsedown">
+        <div class="panel-body temp_toolbar_search_panel">
+            <div class="row-fluid">
+                <div class="span12">
+                    <span class="temp_toolbar_search_span">工单编码:</span>
+                    <input id="{{model}}_code" class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入工单编码">
+                    <span class="temp_toolbar_search_span">商铺名称:</span>
+                    <input id="{{model}}_shop_name"class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入商铺名称">
+                </div>
+            </div>
+            <div class="row-fluid">
+                <button id='{{model}}_search' type="button" class="btn btn-block btn-primary btn-sm">
+                    <i class="fa fa-search"></i> 查询
+                </button>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="temp_firesafety_query_change" type="text/html">
+    <form id="{{model}}_form" role="form">
+        {{ each temp_data_list temp_data}}
+        <!-- text input -->
+        <input type="hidden" id="{{model}}_id" name="{{model}}_id" value="{{temp_data.id}}" class="form-control">
+        <input type="hidden" id="{{model}}_bill_type" name="{{model}}_bill_type" value="{{temp_data.bill_type}}" class="form-control">
+        <input type="hidden" id="{{model}}_parent" name="{{model}}_parent" value="{{temp_data.parent}}" class="form-control">
+        <input type="hidden" id="{{model}}_item_set" name="{{model}}_item_set" value="{{temp_data.item_set}}" class="form-control">
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">单据编码:</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" id="{{model}}_code" name="{{model}}_code" value="{{temp_data.code}}"
+                       class="form-control model_div_input" placeholder="系统自动生成" disabled>
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">检查商铺:</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="hidden" id="{{model}}_shop" name="{{model}}_shop" value="{{temp_data.shop}}">
+                <input type="text" id="{{model}}_shop_name" name="{{model}}_shop_name" value="{{temp_data.shop_name}}"
+                       class="form-control model_div_input"
+                       {{ if temp_data.change == 'info' || temp_data.change == 'edit'}}disabled{{/if}}
+                placeholder="请选择当前单据所检查的商铺（关键字查找选择）" required>
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">商铺手续:</label>
+            </div>
+            <div class="col-sm-4">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="{{model}}_shop_has_procedure" name="{{model}}_shop_has_procedure" value="true" required
+                               {{if temp_data.shop_has_procedure==true }}checked{{/if}} {{ if temp_data.change == 'info'}}disabled{{/if}} />证件是否齐全
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">陪同人员:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_shop_escort" name="{{model}}_shop_escort"
+                       value="{{temp_data.shop_escort}}" {{ if temp_data.change == 'info'}}disabled{{/if}}
+                class="form-control" placeholder="请输入商铺陪同检查人员的姓名（电话）" required>
+            </div>
+        </div>
+        {{ each temp_data.item_set setting}}
+        <div class="row" style="background:rgba(0, 166, 90, 0.45);margin-right:0px;margin-left:0px;">
+            <div class="col-sm-2" style="line-height:40px;">
+                <label class="model_div_span">{{setting.group_name}}</label>
+            </div>
+            <div class="col-sm-3">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="{{setting.code}}_qualified" name="{{setting.code}}_qualified"
+                               class="{{model}}_group" {{if setting.data.qualified==true}}checked{{/if}}
+                               value="true" {{if temp_data.change == 'info'}}disabled{{/if}} />合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </label>
+                    <label>
+                        <input type="checkbox" id="{{setting.code}}_no_qualified" name="{{setting.code}}_no_qualified"
+                               class="{{model}}_group_no" {{if setting.data.qualified==false}}checked{{/if}}
+                               value="true" {{if temp_data.change == 'info'}}disabled{{/if}} />不合格
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-6" style="line-height:40px;">
+                {{ if setting.note }}
+                <input type="text" id="{{setting.code}}_note" name="{{setting.code}}_note"
+                       class="form-control model_div_input" style="margin-top: 3px;"
+                       value="{{setting.data.note}}" {{if temp_data.change == 'info'}}disabled{{/if}}
+                placeholder="请填写检查项{{setting.group_name}}的备注信息"/>
+                {{ else }}
+                &nbsp;
+                {{ /if }}
+            </div>
+            <div class="col-sm-1" style="line-height:40px;text-align:right;">
+                <a data-toggle="collapse" data-parent="#accordion" href="#{{setting.code}}_items">
+                    明细
+                </a>
+            </div>
+        </div>
+        <div id="{{setting.code}}_items" class="panel-collapse collapse in">
+            <div class="panel-body temp_toolbar_search_panel">
+                <div class="row-fluid">
+                    {{ each setting.childs items}}
+                    <div class="span12">
+                        {{ if items.have }}
+                        <label style="font-weight:100;">
+                            <input type="checkbox" id="{{items.code}}_have" name="{{items.code}}_have"
+                                   value="true" {{ if items.data.have }}checked{{/if}}
+                            {{if temp_data.change == 'info'}}disabled{{/if}} />&nbsp;{{items.have_name}}
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ /if }}
+                        <strong>{{items.name}}</strong>
+                        {{ if items.choice }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div style="display:inline-block;">
+                            {{ each items.choice_option option index}}
+                            <label style="font-weight:100;">
+                                <input class="item_checkbox" type="checkbox" name="{{items.code}}_choice" value="{{index}}"
+                                       {{ if items.data.choice==index}}checked{{/if}}
+                                       {{ if temp_data.change == 'info'}}disabled{{/if}} />&nbsp;{{option}}&nbsp;&nbsp;
+                            </label>
+                            {{ /each }}
+                        </div>
+                        {{ /if }}
+                        {{ if items.figure}}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{items.figure_name}}
+                        <input type="text" id="{{items.code}}_figure" name="{{items.code}}_figure"
+                               style="width:200px;" value="{{items.data.figure}}"
+                               {{if temp_data.change == 'info'}}disabled{{/if}}
+                        placeholder="请填写{{items.figure_name}}"/>
+                        {{ /if }}
+                        {{ if items.other}}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{items.other_name}}
+                        <input type="text" id="{{items.code}}_other" name="{{items.code}}_other"
+                               style="width:200px;" value="{{items.data.other}}"
+                               {{if temp_data.change == 'info'}}disabled{{/if}}
+                        placeholder="请填写{{items.name}}的{{items.other_name}}"/>
+
+                        {{ /if }}
+                        {{ if items.note}}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{items.note_name}}
+                        <input type="text" id="{{items.code}}_note" name="{{items.code}}_note"
+                               style="width:200px;" value="{{items.data.note}}"
+                               {{if temp_data.change == 'info'}}disabled{{/if}}
+                        placeholder="请填写{{items.name}}的{{items.note_name}}"/>
+                        {{ /if }}
+                    </div>
+                    {{ /each }}
+                </div>
+            </div>
+        </div>
+        {{ /each }}
+        <div class="row model_div_row">
+            <div class="col-sm-12">
+                &nbsp;
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">检查结果:</label>
+            </div>
+            <div class="col-sm-4">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="{{model}}_qualified" name="{{model}}_qualified" value="true"
+                               {{if temp_data.qualified==true}}checked{{/if}} disabled />合格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" id="{{model}}_no_qualified" name="{{model}}_qualified" value="true"
+                               {{if temp_data.qualified==false}}checked{{/if}} disabled />不合格
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span {{model}}_recheck_date_type {{ if temp_data.change == 'add' && temp_data.bill_type!==2 || temp_data.qualified==true}}model_div_row_hidde{{/if}}">复检类型:</label>
+            </div>
+            <div class="col-sm-4">
+                <select class="form-control {{model}}_recheck_date_type {{ if temp_data.change == 'add' && temp_data.bill_type!==2 || temp_data.qualified==true}}model_div_row_hidde{{/if}}"
+                        id="{{model}}_recheck_date_type" name="{{model}}_recheck_date_type"
+                        style="margin-top: 3px;"
+                        {{if temp_data.change == 'info'}}disabled{{/if}}>
+                <option>--请选择--</option>
+                <option value="3" {{if temp_data.recheck_date_type=='3'}}selected{{/if}}>3天后复检</option>
+                <option value="7" {{if temp_data.recheck_date_type=='7'}}selected{{/if}}>7天后复检</option>
+                </select>
+            </div>
+        </div>
+
+        {{ if temp_data.change == 'info' }}
+        <div class="row model_div_row">
+            <div class="col-sm-3">
+                <label class="model_div_span">抽查照片（{{temp_data.images.length}}张）:</label>
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-12">
+                <div class="firesafety_image_show_div">
+                    {{ each temp_data.images image}}
+                    <img src="{{temp_data.server}}{{image.photo}}"></img>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{ /if }}
+
+        {{ /each}}
+    </form>
+</script>

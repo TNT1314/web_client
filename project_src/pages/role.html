@@ -1,0 +1,228 @@
+<div id="role" class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">角色列表</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="role_table" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>序列号</th>
+                            <th>角色编码</th>
+                            <th>角色名称</th>
+                            <th>角色描述</th>
+                            <th>创建人员</th>
+                            <th>创建时间</th>
+                            <th>修改人员</th>
+                            <th>修改时间</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>序列号</th>
+                            <th>角色编码</th>
+                            <th>角色名称</th>
+                            <th>角色描述</th>
+                            <th>创建人员</th>
+                            <th>创建时间</th>
+                            <th>修改人员</th>
+                            <th>修改时间</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="role_table_tools" type="text/html">
+    <div class="temp_toolbar">
+        <div class="temp_toolar_left">
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_inf' class="btn btn-block btn-info btn-sm">
+                    <i class="fa fa-search"></i> 查看
+                </button>
+            </div>
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_add' class="btn btn-block btn-success btn-sm" {{ if power.add==false }}disabled{{/if}}>
+                    <i class="fa fa-plus"></i>新增
+                </button>
+            </div>
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_edi' class="btn btn-block btn-primary btn-sm" {{ if power.edi==false }}disabled{{/if}}>
+                    <i class="fa fa-edit"></i>修改
+                </button>
+            </div>
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_aud' class="btn btn-block btn-warning btn-sm" {{ if power.aud==false }}disabled{{/if}}>
+                    <i class="fa fa-check-square-o"></i>审批
+                </button>
+            </div>
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_del' class="btn btn-block btn-danger btn-sm" {{ if power.del==false }}disabled{{/if}}>
+                    <i class="fa fa-trash-o"></i>删除
+                </button>
+            </div>
+        </div>
+        <div class="temp_toolar_right">
+            <a data-toggle="collapse" data-parent="#accordion" href="#{{model}}_collapseOne">
+                <i class="fa fa-search"></i>高级搜索
+            </a>
+        </div>
+    </div>
+    <div id="{{model}}_collapseOne" class="panel-collapse collapse collapsedown">
+        <div class="panel-body temp_toolbar_search_panel">
+            <div class="row-fluid">
+                <div class="span12">
+                    <span class="temp_toolbar_search_span">角色编码:</span>
+                    <input id="{{model}}_code" class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入角色编码">
+                    <span class="temp_toolbar_search_span">角色名称:</span>
+                    <input id="{{model}}_name"class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入角色名称">
+                </div>
+            </div>
+            <div class="row-fluid">
+                <button id='{{model}}_search' type="button" class="btn btn-block btn-primary btn-sm">
+                    <i class="fa fa-search"></i> 查询
+                </button>
+            </div>
+            
+        </div>
+    </div>
+</script>
+<script id="temp_role_change" type="text/html">
+    <form id="{{model}}_form" role="form">
+        <!-- text input -->
+        <input type="hidden" id="{{model}}_id" name="id" value="{{id}}" class="form-control">
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">角色编码:</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" id="role_code" name="role_code" value="{{code}}" class="form-control model_div_input" disabled placeholder="系统自动生成">
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">角色名称:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="role_name" name="role_name" value="{{name}}" class="form-control model_div_input" {{ if change == 'info'}}disabled{{/if}} placeholder="请输入角色名称" required>
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">角色描述:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="role_desc" name="role_desc" value="{{desc}}" class="form-control model_div_input" {{ if change == 'info'}}disabled{{/if}} placeholder="请输入角色描述" required>
+            </div>
+        </div>
+        {{if indu_choice}}
+        <div class="row model_div_row">
+            <div class="col-sm-5" >
+                <div class="role_div">
+                    <ul class="data-list" id="undo_redo" style="padding: 10px">
+                        {{ if change=='edit' }}
+                        {{each indu_choice item}}
+                        <div class="row undo_redo_item" data-value={{item}}>
+                            <div class="col-sm-6" style="height: 25px;">{{item.name}}</div>
+                            <div class="col-sm-6"></div>
+                        </div>
+                        {{/each}}
+                        {{ else }}
+                            {{each indu_choice.roles item}}
+                            <div class="row undo_redo_item" data-value={{item}}>
+                                <div class="col-sm-6" style="height: 25px;">{{item.name}}</div>
+                                <div class="col-sm-6"></div>
+                            </div>
+                            {{/each}}
+                        {{ /if }}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-2" style="margin-top: 10%;margin-bottom: 10%;">
+                <button type="button" id="undo_redo_leftSelected"
+                        class="btn btn-default btn-block">
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </button>
+                <button type="button" id="undo_redo_rightSelected"
+                        class="btn btn-default btn-block">
+                    <i class="glyphicon glyphicon-chevron-left"></i>
+                </button>
+            </div>
+            <div class="col-sm-5">
+                <div class="role_div">
+                    <ul class="data-list" id="undo_redo_to" style="padding: 10px">
+                        {{if change == 'edit' && item}}
+                        {{each item sub_item}}
+                        <div class="row" data-value={{sub_item.value_data}}>
+                            <div class="col-sm-4 undo_redo_to_item">{{sub_item.permission.name}}</div>
+                            <div class="col-sm-8" style="padding-left: 0px;padding-right: 0px">
+                                <label><input type="checkbox" value="true" name="per_add" class="item_checkd"  {{if sub_item.per_add==true}}checked{{/if}} />增加&nbsp;</label>
+                                <label><input type="checkbox" value="true" name="per_edi" class="item_checkd"  {{if sub_item.per_edi==true}}checked{{/if}} />修改&nbsp;</label>
+                                <label><input type="checkbox" value="true" name="per_del" class="item_checkd"  {{if sub_item.per_del==true}}checked{{/if}} />删除&nbsp;</label>
+                                <label><input type="checkbox" value="true" name="per_aud" class="item_checkd"  {{if sub_item.per_aud==true}}checked{{/if}} />审批&nbsp;</label>
+                                <label><input type="checkbox" value="true" name="per_see" class="item_checkd"  {{if sub_item.per_see==true}}checked{{/if}} />查看&nbsp;</label>
+                            </div>
+                        </div>
+                        {{/each}}
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+                <button type="button" id="undo_redo_left"
+                        class="btn btn-primary btn-block">全部添加
+                </button>
+            </div>
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-5">
+                <button type="button" id="undo_redo_right"
+                        class="btn btn-warning btn-block">全部移除
+                </button>
+            </div>
+        </div>
+        {{else}}
+        <div class="row model_div_row">
+            <div class="col-sm-12">
+                <div class="role_div">
+                    <ul class="data-list" style="padding: 10px">
+                        {{each item sub_item}}
+                        <div class="row" data-value={{value}}>
+                            <div class="col-sm-7 undo_redo_to_item">{{sub_item.permission.name}}</div>
+                            <div class="col-sm-5">
+                                <label><input type="checkbox" value="true" name="per_add" class="item_checkd" disabled {{if sub_item.per_add==true}}checked{{/if}} />&nbsp;&nbsp;增加&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label><input type="checkbox" value="true" name="per_edi" class="item_checkd" disabled {{if sub_item.per_edi==true}}checked{{/if}} />&nbsp;&nbsp;修改&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label><input type="checkbox" value="true" name="per_del" class="item_checkd" disabled {{if sub_item.per_del==true}}checked{{/if}} />&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label><input type="checkbox" value="true" name="per_aud" class="item_checkd" disabled {{if sub_item.per_aud==true}}checked{{/if}} />&nbsp;&nbsp;审批&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label><input type="checkbox" value="true" name="per_see" class="item_checkd" disabled {{if sub_item.per_see==true}}checked{{/if}} />&nbsp;&nbsp;查看&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </form>
+</script>
+<script id="undo_redo_item" type="text/html">
+    <div class="row undo_redo_item" data-value={{value}}>
+        <div class="col-sm-4" style="height: 25px;">{{value.name}}</div>
+        <div class="col-sm-8"></div>
+    </div>
+</script>
+<script id="undo_redo_to_item" type="text/html">
+    <div class="row" data-value={{value}}>
+        <div class="col-sm-4 undo_redo_to_item">{{value.name}}</div>
+        <div class="col-sm-8" style="padding-left: 0px;padding-right: 0px">
+            <label><input type="checkbox" value="true" name="per_add" class="item_checkd"  {{if value.per_add==true}}checked{{/if}} />增加&nbsp;</label>
+            <label><input type="checkbox" value="true" name="per_edi" class="item_checkd"  {{if value.per_edi==true}}checked{{/if}} />修改&nbsp;</label>
+            <label><input type="checkbox" value="true" name="per_del" class="item_checkd"  {{if value.per_del==true}}checked{{/if}} />删除&nbsp;</label>
+            <label><input type="checkbox" value="true" name="per_aud" class="item_checkd"  {{if value.per_aud==true}}checked{{/if}} />审批&nbsp;</label>
+            <label><input type="checkbox" value="true" name="per_see" class="item_checkd"  {{if value.per_see==true}}checked{{/if}} />查看&nbsp;</label>
+        </div>
+    </div>
+</script>

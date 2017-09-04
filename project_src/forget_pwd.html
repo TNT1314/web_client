@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>兴丰街道消防图志-建设者家园</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="plugins/font-awesome/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="plugins/adminlte/css/AdminLTE.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+
+    <link rel="stylesheet" href="css/app.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        #froget_pwd_form > .row > .col-xs-12 > .form-group > input {
+            height: 43px;
+        }
+
+        #froget_pwd_form > .row > .col-xs-12 > .form-group > span {
+            line-height: 43px;
+            font-size: medium;
+
+        }
+    </style>
+</head>
+<body id="login_page">
+<div id="login_backgroud">
+    <img src="images/login_background.png"></img>
+    <div id="login_foot">
+        <strong style="color: #999999;font-weight: normal;">
+            <b>Version</b> 1.0.0&nbsp;&nbsp;&nbsp;Copyright&copy;2014-2020&nbsp;
+            <a href="http://www.jianshezhejiayuan.com">
+                <img class="attachment-img" src="images/logo.png" style="height: 14px;margin-top: -3px;"
+                     alt="Attachment Image"/>
+                Builders Home
+            </a>. All rights reserved.
+        </strong>
+    </div>
+</div>
+
+<div id="froget_pwd_box">
+
+    <div id="login_logining" class="loging_logining_hidden">
+        <i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;&nbsp;正在网络请求,请稍候...
+    </div>
+    <div id="froget_pwd_title">
+        修改密码
+    </div>
+
+    <div id="forget_pwd_message">
+        <div id="forget_pwd_content" class="messge_hidde" style="margin-top: -1px;font-weight: 100;font-size: 12px">
+            <a id="close_forget_pwd_message" style="height:10px;width:20px;float:left;color: white">×</a>
+            <span id="login_error_message">用户名或密码错误！</span>
+        </div>
+    </div>
+
+
+    <div id="froget_pwd_content">
+        <form id="froget_pwd_form">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group has-feedback froget_pwd_widget">
+                        <input id="username" name="username" type="text" class="form-control login_input"
+                               placeholder="用户名">
+                        <span class="fa fa-user form-control-feedback login_icon"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group has-feedback froget_pwd_widget">
+                        <input id="identify_code" name="identify_code" type="text"
+                               class="form-control  form-control-xxx login_input "
+                               placeholder="邮箱验证码">
+                        <span class="fa fa-envelope form-control-feedback login_icon"></span>
+
+                        <button type="button" id="identify_button" class="btn btn-primary btn-sm ">
+                            &nbsp;获取验证码&nbsp;
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group has-feedback froget_pwd_widget">
+                        <input id="password" name="password" type="password" class="form-control login_input"
+                               placeholder="新密码">
+                        <span class="fa fa-lock form-control-feedback login_icon"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group has-feedback froget_pwd_widget">
+                        <input id="verify_password" name="verify_password" type="password"
+                               class="form-control login_input"
+                               placeholder="验证新密码">
+                        <span class="fa fa-lock form-control-feedback login_icon"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="button" id="change_pwd" class="btn btn-primary btn-block btn-flat">
+                        保&nbsp;&nbsp;&nbsp;存
+                    </button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<!-- validate -->
+<script src="plugins/validate/jquery.validate.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/project_setting/settings.js"></script>
+<!-- iCheck -->
+<script src="plugins/project_setting/common.js"></script>
+
+<script src="js/forget_pwd.js"></script>
+</body>
+
+
+</html>

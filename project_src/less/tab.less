@@ -1,0 +1,126 @@
+.nav-tab{
+    width: 100%;
+    max-width: 100%;
+}  
+#main-nav-tab > li{
+    margin-top: 1px;
+}
+#main-nav-tab > li > a{
+    max-width: 8em;
+    white-space:nowrap; 
+    overflow:hidden;
+    font-weight: 100;
+    text-overflow:ellipsis;
+}
+#main-nav-tab > li > a:focus,#main-nav-tab > li > a:hover{
+    font-weight: 800;
+}
+.nav-tab-i{
+    position: absolute;
+    right:4px;
+    top: 4px;
+}
+.nav-tab-title:hover{
+    cursor: progress;
+}
+
+.nav-tab-content-null{
+    height:100%;
+    width:100%;
+    text-align:center;
+}
+.nav-panel-self{
+    padding: 10px;
+    width: 100%;
+    height: auto;
+}
+.screen_div{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    opacity: 0.3;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    z-index: 9999;
+}
+.screen_div_content{
+    position: absolute;
+    top: 45%;
+    width: 100%;
+    margin-left: -200px;
+    text-align: center;
+}
+.screen_div_hidden{
+    visibility: hidden;
+}
+
+#main_sidebar_search > .select2 > .selection> .select2-selection{
+    border: none;
+    background-color: #374850;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 2px;
+    color: #FFFFFF;
+}
+
+#main_sidebar_search > .select2 > .selection> .select2-selection:focus,
+#main_sidebar_search > .select2 > .selection> .select2-selection:hover{
+    color: #000000;
+    background-color: #FFFFFF;
+}
+.modal_div{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    opacity: 0.5;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    z-index: 999;
+}
+.modal_div_show{
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+.modal_div_dialog{
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.modal_div_flex{
+    display: flex;
+}
+.modal_div_flex > label{
+    display: block;
+    width: 5em;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+    line-height: 34px;
+    font-size: 1.1em;
+}
+.modal_div_flex > input{
+    max-width: 30em;
+}
+.table-striped>tbody>tr.odd.selected, .table-striped>tbody>tr.even.selected{
+    background: #abb9d3;
+}
+
+.modal_content_div_show{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tooltip.top .tooltip-inner {
+    background-color:red;
+}
+.tooltip.top .tooltip-arrow {
+    border-top-color: red;
+}

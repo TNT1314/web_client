@@ -1,0 +1,28 @@
+{
+  "name": "map_marker",
+  "version": "1.0.0",
+  "description": "街道项目",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "runtest"
+  },
+  "keywords": [
+    "map",
+    "marker"
+  ],
+  "author": "wormer",
+  "outpath": "project_build",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-csslint": "^2.0.0",
+    "grunt-contrib-imagemin": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-less": "^1.4.1",
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

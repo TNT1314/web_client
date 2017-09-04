@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>兴丰街道消防图志-建设者家园</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="plugins/font-awesome/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="plugins/adminlte/css/AdminLTE.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+
+    <link rel="stylesheet" href="css/app.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        #login_form > .row > .col-xs-12 > .form-group > input {
+            height: 43px;
+        }
+
+        #login_form > .row > .col-xs-12 > .form-group > span {
+            line-height: 43px;
+            font-size: medium;
+        }
+    </style>
+</head>
+<body id="login_page">
+<div id="login_backgroud">
+    <img src="images/login_background.png"></img>
+    <div id="login_foot">
+        <strong style="color: #999999;font-weight: normal;">
+            <b>Version</b> 1.0.0&nbsp;&nbsp;&nbsp;Copyright&copy;2014-2020&nbsp;
+            <a href="http://www.jianshezhejiayuan.com">
+                <img class="attachment-img" src="images/logo.png" style="height: 14px;margin-top: -3px;"
+                     alt="Attachment Image"/>
+                Builders Home
+            </a>. All rights reserved.
+        </strong>
+    </div>
+</div>
+
+<div id="login_box">
+    <div id="login_logining" class="loging_logining_hidden">
+        <i class="fa fa-spin fa-refresh"></i>&nbsp;&nbsp;&nbsp;登陆中,请稍候...
+    </div>
+    <div id="login_title">
+        用户登录
+    </div>
+    <span class="line"></span>
+    <div id="login_message">
+        <div id="login_message_content" class="messge_hidde" style="margin-top: -1px;font-weight: 100;font-size: 12px">
+            <a id="close_login_message" style="height:10px;width:20px;float:left;color: white">×</a>
+            <span id="login_error_message">用户名或密码错误！</span>
+        </div>
+    </div>
+    <div id="login_content">
+        <form id="login_form">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group has-feedback login_widget">
+                        <input id="username" name="username" type="text" class="form-control login_input"
+                               placeholder="用户名">
+                        <span class="fa fa-user form-control-feedback login_icon"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" style="margin-top: 10px">
+                    <div class="form-group has-feedback login_widget">
+                        <input id="password" name="password" type="password" class="form-control login_input"
+                               placeholder="密码">
+                        <span class="fa fa-lock form-control-feedback login_icon"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="submit" id="login_buttom" class="btn btn-primary btn-block btn-flat">
+                        登&nbsp;&nbsp;&nbsp;录
+                    </button>
+                </div>
+                <!-- /.col -->
+            </div>
+            <div class="row" style="margin-top: 10px">
+                <div class="col-xs-6">
+                    <div id="login_pass_check" class="checkbox icheck ">
+                        <label style="padding-left: 65px">
+                            <input type="checkbox" > 记住密码
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-6">
+                    <div id="login_pass_forget" class="checkbox ">
+                        <label style="padding-right: 65px">
+                            <a href="forget_pwd.html">忘记密码</a>
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<!--<script src="plugins/iCheck/icheck.min.js"></script>-->
+<!-- validate -->
+<script src="plugins/validate/jquery.validate.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/project_setting/settings.js"></script>
+<!-- iCheck -->
+<script src="plugins/project_setting/common.js"></script>
+
+<script src="js/index.js"></script>
+</body>
+
+</html>

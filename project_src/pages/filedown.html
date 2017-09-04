@@ -1,0 +1,169 @@
+<div id="filedown" class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">文件备份下载</h3>
+    </div>
+    <div id="filedown_body" class="box-body">
+        &nbsp;
+    </div>
+</div>
+
+<script id="filedown_template"  type="text/html">
+    {{ if account.manager==true || account.rank_type==2 }}
+        <div class="row"><div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row title_top_buttom">
+            <div class="col-lg-12 col-xs-12">
+                <h5>
+                    <i class="fa fa-calendar-o"></i>&nbsp;按年打包文件
+                </h5>
+            </div>
+        </div>
+        <div class="row"><div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row">
+            <form id="year" role="form">
+                <div class="col-sm-2">
+                    <select class="form-control year" id="year" name="year" required>
+                        <option value="">请选择年份</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    &nbsp;
+                </div>
+                <div class="col-sm-2">
+                    &nbsp;
+                </div>
+                <div class="col-sm-1">
+                    <div class="filedown_div_bar_col">
+                        <button type="button" id="year_bar" class="btn btn-info filedown_button" name="year">
+                            开始打包
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div id="year_file_down" style="line-height: 34px;">
+                        &nbsp;
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row"> <div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row"> <div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row title_top_buttom">
+            <div class="col-lg-12 col-xs-12">
+                <h5>
+                    <i class="fa fa-calendar"></i>&nbsp;按年月打包文件
+                </h5>
+            </div>
+        </div>
+        <div class="row"><div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row">
+            <form id="year_month" role="form">
+                <div class="col-sm-2">
+                    <select class="form-control year" id="year" name="year" required>
+                        <option value="">请选择年份</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control month" id="month" name="month" required>
+                        <option value="">请选择月份</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    &nbsp;
+                </div>
+                <div class="col-sm-1">
+                    <div class="filedown_div_bar_col">
+                        <button type="button" id="year_month_bar" class="btn btn-info filedown_button" name="year_month">
+                            开始打包
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div id="year_month_file_down" style="line-height: 34px;">
+                        &nbsp;
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row"> <div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row"> <div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row title_top_buttom">
+            <div class="col-lg-12 col-xs-12">
+                <h5>
+                    <i class="fa fa-user"></i>&nbsp;按安全员打包
+                </h5>
+            </div>
+        </div>
+        <div class="row"> <div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row">
+            <form id="year_month_account" role="form">
+                <div class="col-sm-2">
+                    <select class="form-control year" id="year" name="year" required>
+                        <option value="">请选择年份</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control month" id="month" name="month" required>
+                        <option value="">请选择月份</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <input type="hidden" id="account" name="account" value="" required>
+                    <input type="text" id="account_name" name="account_name" class="form-control" style="height: 38px;" placeholder="输入需要数据的安全员" required>
+                </div>
+                <div class="col-sm-1">
+                    <div class="filedown_div_bar_col">
+                        <button type="button" id="tool_refesh" class="btn btn-info filedown_button" name="year_month_account">
+                            开始打包
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div id="year_month_account_file_down" style="line-height: 34px;">
+                        &nbsp;
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row"> <div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row"> <div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row"> <div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+    {{ else }}
+        <div class="row title_top_buttom">
+            <div class="col-lg-12 col-xs-12">
+                <h5>
+                    <i class="fa fa-calendar"></i>&nbsp;打包文件
+                </h5>
+            </div>
+        </div>
+        <div class="row"><div class="col-lg-12 col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+        <div class="row">
+            <form id="year_month" role="form">
+                <div class="col-sm-2">
+                    <select class="form-control year" id="year" name="year" required>
+                        <option value="">请选择年份</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-control month" id="month" name="month" required>
+                        <option value="">请选择月份</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    &nbsp;
+                </div>
+                <div class="col-sm-1">
+                    <div class="filedown_div_bar_col">
+                        <button type="button" id="year_month_bar" class="btn btn-info filedown_button" name="year_month">
+                            开始打包
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div id="year_month_file_down" style="line-height: 34px;">
+                        &nbsp;
+                    </div>
+                </div>
+            </form>
+        </div>
+    {{ /if }}
+</script>

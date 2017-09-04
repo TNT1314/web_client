@@ -1,0 +1,8 @@
+*.py[d]
+*.egg
+*.egg-info
+dist
+build
+project_build
+.DS_Store
+.idea/

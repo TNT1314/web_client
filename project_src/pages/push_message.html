@@ -1,0 +1,87 @@
+<div id="push_message" class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">消息列表</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="push_message_table" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>消息主题</th>
+                        <th>消息内容</th>
+                        <th>创建时间</th>
+                        <th>是否已读</th>
+                        <th>创建人员</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>id</th>
+                        <th>消息主题</th>
+                        <th>消息内容</th>
+                        <th>创建时间</th>
+                        <th>是否已读</th>
+                        <th>创建人员</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="push_message_table_tools" type="text/html">
+    <div class="temp_toolbar">
+        <div class="temp_toolar_left">
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_inf' class="btn btn-block btn-info btn-sm">
+                    <i class="fa fa-search"></i> 查看
+                </button>
+            </div>
+            {{ if power.add==true }}
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_add' class="btn btn-block btn-success btn-sm">
+                    <i class="fa fa-plus"></i>新增
+                </button>
+            </div>
+            {{/if}}
+            {{ if power.del==true }}
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_del' class="btn btn-block btn-danger btn-sm">
+                    <i class="fa fa-trash-o"></i>删除
+                </button>
+            </div>
+            {{/if}}
+        </div>
+        <div class="temp_toolar_right">
+            <a data-toggle="collapse" data-parent="#accordion" href="#{{model}}_collapseOne">
+                <i class="fa fa-search"></i>高级搜索
+            </a>
+        </div>
+    </div>
+    <div id="{{model}}_collapseOne" class="panel-collapse collapse collapsedown">
+        <div class="panel-body temp_toolbar_search_panel">
+            <div class="row-fluid">
+                <div class="span12">
+                    <span class="temp_toolbar_search_span">消息主题:</span>
+                    <input id="{{model}}_title" class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入消息主题">
+                    <span class="temp_toolbar_search_span">创建人员:</span>
+                    <input id="{{model}}_create_user" class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入创建人员姓名">
+                    <span class="temp_toolbar_search_span">是否已读:</span>
+                    <select class="form-control" id="{{model}}_msg_is_read">
+                        <option id="msg_read_none" value="" selected>空</option>
+                        <option id="msg_read" value="true">已读</option>
+                        <option id="msg_unread" value="false">未读</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <button id='{{model}}_search' type="button" class="btn btn-block btn-primary btn-sm">
+                    <i class="fa fa-search"></i> 查询
+                </button>
+            </div>
+        </div>
+    </div>
+</script>

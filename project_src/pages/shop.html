@@ -1,0 +1,381 @@
+<div id="shop" class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">商户列表</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="shop_table" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>序列号</th>
+                            <th>商户编码</th>
+                            <th>商户名称</th>
+                            <th>营业执照</th>
+                            <th>营业状态</th>
+                            <th>检查状态</th>
+                            <th>负责人</th>
+                            <th>负责人电话</th>
+                            <th>营业面积</th>
+                            <th>职工数量</th>
+                            <th>营业地址</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>序列号</th>
+                            <th>商户编码</th>
+                            <th>商户名称</th>
+                            <th>营业执照</th>
+                            <th>营业状态</th>
+                            <th>检查状态</th>
+                            <th>负责人</th>
+                            <th>负责人电话</th>
+                            <th>营业面积</th>
+                            <th>职工数量</th>
+                            <th>营业地址</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="shop_table_tools" type="text/html">
+    <div class="temp_toolbar">
+        <div class="temp_toolar_left">
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_inf' class="btn btn-block btn-info btn-sm">
+                    <i class="fa fa-search"></i> 查看
+                </button>
+            </div>
+            {{ if power.add==true }}
+                <div class="temp_toolbar_button_div">
+                    <button type="button" id='{{model}}_add' class="btn btn-block btn-success btn-sm">
+                        <i class="fa fa-plus"></i>新增
+                    </button>
+                </div>
+            {{/if}}
+            {{ if power.edi==true }}
+                <div class="temp_toolbar_button_div">
+                    <button type="button" id='{{model}}_edi' class="btn btn-block btn-primary btn-sm">
+                        <i class="fa fa-edit"></i>修改
+                    </button>
+                </div>
+            {{/if}}
+<!--
+            {{ if power.aud==true }}
+                <div class="temp_toolbar_button_div">
+                    <button type="button" id='{{model}}_aud' class="btn btn-block btn-warning btn-sm">
+                        <i class="fa fa-check-square-o"></i>审批
+                    </button>
+                </div>
+            {{/if}}
+-->
+            {{ if power.del==true }}
+                <div class="temp_toolbar_button_div">
+                    <button type="button" id='{{model}}_del' class="btn btn-block btn-danger btn-sm">
+                        <i class="fa fa-trash-o"></i>删除
+                    </button>
+                </div>
+            {{/if}}
+        </div>
+        <div class="temp_toolar_right">
+            <a data-toggle="collapse" data-parent="#accordion" href="#{{model}}_unfold">
+                <i class="fa fa-search"></i>高级搜索
+            </a>
+        </div>
+    </div>
+    <div id="{{model}}_unfold" class="panel-collapse collapse collapsedown">
+        <div class="panel-body temp_toolbar_search_panel">
+            <div class="row-fluid">
+                <div class="span12">
+                    <span class="temp_toolbar_search_span">商户编码:</span>
+                    <input id="{{model}}_code" class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入商户编码">
+                    <span class="temp_toolbar_search_span">商户名称:</span>
+                    <input id="{{model}}_name" class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入商户名称">
+                    <span class="temp_toolbar_search_span">创建人员:</span>
+                    <input id="{{model}}_hea_cc" class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入创建人名称">
+                    <span class="temp_toolbar_search_span">审核人员:</span>
+                    <input id="{{model}}_adu_cc" class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入审核人员名称">
+                </div>
+            </div>
+            <div class="row-fluid">
+                <button id='{{model}}_search' type="button" class="btn btn-block btn-primary btn-sm">
+                    <i class="fa fa-search"></i> 查询
+                </button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="temp_shop_change" type="text/html">
+    <form class="form" id="{{model}}_form" role="form" >
+        <!-- text input -->
+        <input type="hidden" id="{{model}}_id" name="id" value="{{id}}" class="form-control">
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">商户编码:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_code" name="code" value="{{code}}" class="form-control model_div_input" disabled placeholder="系统自动生成">
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">经营状态:</label>
+            </div>
+            <div class="col-sm-4">
+                <select class="form-control" id="{{model}}_opera_status" name="opera_status" {{if change == 'info'}}disabled{{/if}}>
+                    <option value="1" {{if opera_status==1}}selected{{/if}}>正常营业</option>
+                    <option value="2" {{if opera_status==2}}selected{{/if}}>停业</option>
+                    <option value="3" {{if opera_status==3}}selected{{/if}}>未启用</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">商户名称:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_name" name="name" value="{{name}}" class="form-control model_div_input" required  {{ if change=='info' }}disabled{{/if}} placeholder="请输入商户名称">
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">营业执照:</label>
+            </div>
+            <div class="col-sm-4">
+                <div class="checkbox">
+                    <label>
+                    <input type="checkbox" id="{{model}}_is_license" name="is_license" value="true" {{if is_license==true }}checked{{/if}}
+                           {{ if change == 'info'}}disabled{{/if}} />是否有营业执照
+                  </label>
+                </div>
+            </div>
+        </div>
+        <div class="row model_div_row {{model}}_is_license_div {{if is_license!=true }}model_div_row_hidde{{/if}}">
+            <div class="col-sm-2">
+                <label class="model_div_span">执照编号:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_license_number" name="license_number" value="{{license_number}}" {{ if change=='info' }}disabled{{/if}} class="form-control model_div_input"  placeholder="请输入营业执照编号">
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">执照名称:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_license_name" name="license_name" value="{{license_name}}" {{ if change=='info' }}disabled{{/if}} class="form-control model_div_input" placeholder="请输入营业执照名称">
+            </div>
+        </div>
+        <div class="row model_div_row {{model}}_is_license_div {{if is_license!=true }}model_div_row_hidde{{/if}}">
+            <div class="col-sm-2">
+                <label class="model_div_span">法人姓名:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_legal_person_name" name="legal_person_name" value="{{legal_person_name}}" {{ if change=='info' }}disabled{{/if}} class="form-control model_div_input" placeholder="请输入法人姓名" required>
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">法人电话:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_legal_person_phone" name="legal_person_phone" value="{{legal_person_phone}}" {{ if change=='info' }}disabled{{/if}} class="form-control model_div_input" placeholder="请输入商户法人电话" required>
+            </div>
+        </div>
+        <div class="row model_div_row {{model}}_is_license_div {{if is_license!=true }}model_div_row_hidde{{/if}}">
+            <div class="col-sm-2">
+                <label class="model_div_span">注册地址:</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" id="{{model}}_regis_address" name="regis_address" value="{{regis_address}}" {{ if change=='info' }}disabled{{/if}} class="form-control model_div_input" placeholder="请输入商户注册地址">
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">营业面积:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_area" name="area" value="{{area}}" {{ if change=='info' }}disabled{{/if}} class="form-control model_div_input" required placeholder="请输入商户营业面积（单位：㎡）">
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">职员数量:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_num_of_staff" name="num_of_staff" value="{{num_of_staff}}" class="form-control model_div_input" {{ if change=='info' }}disabled{{/if}} required placeholder="请输入商户职员数量">
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">负责人姓名:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_head_name" name="head_name" value="{{head_name}}" class="form-control model_div_input" {{ if change=='info' }}disabled{{/if}} required placeholder="请输入商户负责人姓名">
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">负责人电话:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_head_phone" name="head_phone" value="{{head_phone}}" class="form-control model_div_input" {{ if change=='info' }}disabled{{/if}} required placeholder="请输入商户负责人电话">
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">门脸照片1:</label>
+            </div>
+            <div class="col-sm-4">
+                {{if change == 'add' || change=="edit"}}
+                <input type="file" id="{{model}}_face_photo1" class="form-control model_div_input">
+                <input type="hidden" id="{{model}}_face_photo1_hidden" name="face_photo1" class="form-control model_div_input"> {{else if change=="info"}} {{if face_photo1}}
+                <img src="{{server}}{{face_photo1}}" style="width:100%;height:auto;"> {{else}}
+                <label class="model_div_span">未上传照片</label> {{/if}} {{/if}}
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">门脸照片2:</label>
+            </div>
+            <div class="col-sm-4">
+                {{if change == 'add' || change=="edit"}}
+                <input type="file" id="{{model}}_face_photo2" class="form-control model_div_input">
+                <input type="hidden" id="{{model}}_face_photo2_hidden" name="face_photo2" class="form-control model_div_input"> {{else if change=="info"}} {{if face_photo2}}
+                <img src="{{server}}{{face_photo2}}" style="width:100%;height:auto;"> {{else}}
+                <label class="model_div_span">未上传照片</label> {{/if}} {{/if}}
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">所属行业:</label>
+            </div>
+            <div class="col-sm-4">
+                <select class="form-control" id="{{model}}_industry" name="industry" {{if change=='info' }}disabled{{/if}}>
+                    {{if change=="add"}}
+                        {{each indu_choice indu}}
+                            <option data-columns="{{indu.columns}}" value="{{indu.id}}" >{{indu.name}}({{indu.code}})</option>
+                        {{/each}}
+                    {{else if change == 'edit'}}
+                        {{each indu_choice indu}}
+                            <option data-columns="{{indu.columns}}" value="{{indu.id}}" {{if indu.id==industry.code}}selected{{/if}}>{{indu.name}}({{indu.code}})</option>
+                        {{/each}}
+                    {{else if change=="info"}}
+                        <option data-columns="{{industry.columns}}" value="{{industry.code}}" selected>{{industry.name}}</option>
+                    {{/if}}
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">检查周期:</label>
+            </div>
+            <div class="col-sm-4">
+                <select class="form-control" id="{{model}}_check_cycle" name="check_cycle" required {{ if change=='info' }}disabled{{/if}}>
+                    {{ if change=="add"}}
+                        <option value="" selected>请选择周期</option>
+                        {{ each cycle_choice choice}}
+                            <option value="{{choice.code}}" >{{choice.name}}</option>
+                        {{ /each }}
+                    {{ else if change=="edit" }}
+                        {{check_cycle.code}}
+                        {{ each cycle_choice choice}}
+                            <option value="{{choice.code}}" {{if check_cycle.code==choice.code }}selected{{/if}}>{{choice.name}}</option>
+                        {{ /each }}
+                    {{ else if change=="info" }}
+                        <option value="{{check_cycle.code}}" selected>{{check_cycle.name}}</option>
+                    {{ /if}}
+                </select>
+            </div>
+        </div>
+        <div class="row model_div_row model_div_row_contol model_div_row_hidde">
+            <div class="col-sm-2">
+                <label class="model_div_span">容纳人数:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_contain_people" name="contain_people" value="{{contain_people}}" class="form-control model_div_input" {{if change=='info' }}disabled{{/if}} placeholder="请输入可容纳人数">
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">房间数量:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_num_of_room" name="num_of_room" value="{{num_of_room}}" class="form-control model_div_input" {{ if change=='info' }}disabled{{/if}} placeholder="请输入房间数（包间、放映厅、摊位）">
+            </div>
+        </div>
+        <div class="row model_div_row model_div_row_contol model_div_row_hidde">
+            <div class="col-sm-2">
+                <label class="model_div_span">施工面积:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" id="{{model}}_cons_area" name="cons_area" value="{{cons_area}}" class="form-control model_div_input" {{if change=='info' }}disabled{{/if}} placeholder="输入施工面积（单位：㎡）">
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">工人数量:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" id="{{model}}_num_of_workers" name="num_of_workers" value="{{num_of_workers}}" class="form-control model_div_input" {{ if change=='info' }}disabled{{/if}} placeholder="输入工人数量">
+            </div>
+            <div class="col-sm-2">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="{{model}}_is_shed" name="is_shed" value="true" {{if is_shed }}checked{{/if}}
+                               {{ if change == 'info'}}disabled{{/if}} />是否有工棚
+                      </label>
+                </div>
+            </div>
+        </div>
+        <div class="row model_div_row model_div_row_contol model_div_row_hidde">
+            <div class="col-sm-2">
+                <label class="model_div_span">危化产品存储量:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_danger_pro_storage" name="danger_pro_storage" value="{{danger_pro_storage}}" class="form-control model_div_input" {{if change=='info' }}disabled{{/if}} placeholder="请输入危化产品存储量（单位：m³）">
+            </div>
+        </div>
+        <div class="row model_div_row model_div_row_contol model_div_row_hidde">
+            <div class="col-sm-2">
+                <label class="model_div_span">其他备注:</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" id="{{model}}_other" name="other" value="{{other}}" class="form-control model_div_input" {{if change=='info' }}disabled{{/if}} placeholder="请填写相关备注">
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">经营地址:</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="hidden" id="{{model}}_point" name="point" value="{{point}}">
+                <input type="text" id="{{model}}_address" name="address" value="{{address}}" class="form-control model_div_input" disabled placeholder="请在地图中选择位置信息">
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">详细地址:</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" id="{{model}}_detail_address" name="detail_address" value="{{detail_address}}" class="form-control model_div_input" required placeholder="楼号，单元，房间号等详细信息" {{if change=='info' }}disabled{{/if}}>
+            </div>
+        </div>
+        <div id="{{model}}_container" class="map_container"  style="height: 400px" >
+
+
+            <!--<div id="{{model}}_container_tools" class="map_tool_div">-->
+                <!--{{ if change!=='info'}}-->
+                    <!--<input type="button" id="{{model}}_tool_clear" value="清除定位" /> -->
+                <!--{{ /if }}-->
+                <!--<input type="button" class="map_tool_min" value="最小化" />-->
+                <!--<input type="button" class="map_tool_max" value="最大化" />-->
+            <!--</div>-->
+
+
+            <div class="map_foots_bar">
+                <div class="row">
+                    <div class="map_div_bar_col">
+                        <i class="iconfont icon-qingchusuoxuan" id="icon_clear"></i>
+                        <button type="button" id="region_tool_clear" class="btn">清除所选</button>
+                    </div>
+                    <div class="map_div_bar_col">
+                        <i class="iconfont icon-fangdatu" id="icon_switch"></i>
+                        <button type="button" id="tool_min" class="btn" style="display:none;">适合大小</button>
+                        <button type="button" id="tool_max" class="btn">全屏显示</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </form>
+</script>

@@ -1,0 +1,222 @@
+<style>
+    #add_role {
+        color: #00a65a;
+    }
+
+</style>
+<div id="account" class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">用户列表</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="account_table" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>编码</th>
+                        <th>账号</th>
+                        <th>姓名</th>
+                        <th>电话1</th>
+                        <th>电话2</th>
+                        <th>邮箱</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>编码</th>
+                        <th>账号</th>
+                        <th>姓名</th>
+                        <th>电话1</th>
+                        <th>电话2</th>
+                        <th>邮箱</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="account_table_tools" type="text/html">
+    <div class="temp_toolbar">
+        <div class="temp_toolar_left">
+            {{ if power.see==true }}
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_inf' class="btn btn-block btn-info btn-sm">
+                    <i class="fa fa-search"></i> 查看
+                </button>
+            </div>
+            {{ /if }}
+            {{ if power.add==true }}
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_add' class="btn btn-block btn-success btn-sm">
+                    <i class="fa fa-plus"></i>新增
+                </button>
+            </div>
+            {{ /if }}
+            {{ if power.edi==true }}
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_edi' class="btn btn-block btn-primary btn-sm">
+                    <i class="fa fa-edit"></i>修改
+                </button>
+            </div>
+            {{/if}}
+            {{ if power.del==true }}
+            <div class="temp_toolbar_button_div">
+                <button type="button" id='{{model}}_del' class="btn btn-block btn-danger btn-sm">
+                    <i class="fa fa-trash-o"></i>删除
+                </button>
+            </div>
+            {{/if}}
+        </div>
+        <div class="temp_toolar_right">
+            <a data-toggle="collapse" data-parent="#accordion" href="#{{model}}_unfold">
+                <i class="fa fa-search"></i>高级搜索
+            </a>
+        </div>
+    </div>
+    <div id="{{model}}_unfold" class="panel-collapse collapse collapsedown">
+        <div class="panel-body temp_toolbar_search_panel">
+            <div class="row-fluid">
+                <div class="span12">
+                    <span class="temp_toolbar_search_span">用户姓名:</span>
+                    <input id="{{model}}_name" class="form-control input-sm temp_toolbar_search_input" type="text"
+                           placeholder="请输入用户姓名">
+                    <span class="temp_toolbar_search_span">用户账号:</span>
+                    <input id="{{model}}_username" class="form-control input-sm temp_toolbar_search_input" type="text"
+                           placeholder="请输入用户账号">
+                    <span class="temp_toolbar_search_span">电话号码:</span>
+                    <input id="{{model}}_mobile" class="form-control input-sm temp_toolbar_search_input" type="text"
+                           placeholder="请输入用户电话号码">
+                    <span class="temp_toolbar_search_span">电子邮件:</span>
+                    <input id="{{model}}_email" class="form-control input-sm temp_toolbar_search_input" type="text"
+                           placeholder="请输入用户电子邮件">
+                </div>
+            </div>
+            <div class="row-fluid">
+                <button id='{{model}}_search' type="button" class="btn btn-block btn-primary btn-sm">
+                    <i class="fa fa-search"></i> 查询
+                </button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="temp_account_change" type="text/html">
+    <form class="form" id="{{model}}_form" role="form">
+        <!-- text input -->
+        <input type="hidden" id="{{model}}_id" name="id" value="{{id}}" class="form-control">
+        <div class="row model_div_row ">
+            <div class="col-sm-12  person_row_col_center">
+                <div id="person_avatar_con" style="padding-bottom: 10px;">
+                    <img height="200" width="200" {{ if avatar }} src="{{server}}{{avatar}}" {{else}}
+                         src="images/user2-160x160.jpg" {{ /if }} id="avatar_id"
+                    class="img-circle" alt="用户照片" >
+                </div>
+                {{ if change!=='info' }}
+                <input type="file" id="avatar" class="form-control model_div_input" style="display:none">
+                <input type="hidden" id="avatar_hidden" name="avatar" class="form-control model_div_input">
+                {{ /if }}
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">姓名:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_name" name="name" value="{{name}}" {{ if change=='info' }}disabled
+                       placeholder="" {{/if}} class="form-control model_div_input" placeholder="请输入用户姓名">
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">身份证:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_identity_card" name="identity_card" value="{{identity_card}}" {{ if
+                       change=='info' }}disabled placeholder="" {{/if}} class="form-control model_div_input"
+                placeholder="请输入用户身份证号码" required>
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">常用电话:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_mobile1" name="mobile1" value="{{mobile1}}" {{ if change=='info'
+                       }}disabled{{/if}} class="form-control model_div_input" required placeholder="请输入用户电话" required>
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">备用电话:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_mobile2" name="mobile2" value="{{mobile2}}" {{ if change=='info'
+                       }}disabled{{/if}} class="form-control model_div_input" placeholder="请输入用户备用电话">
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">邮箱:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_email" name="email" value="{{email}}" {{ if change=='info' }}disabled
+                       placeholder="" {{/if}} class="form-control model_div_input" required placeholder="请输入用户邮箱"
+                required>
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">职位:</label>
+            </div>
+            <div class="col-sm-4">
+                <select class="form-control" id="{{model}}_rank_type" name="rank_type" {{if change==
+                'info'}}disabled{{/if}}>
+                {{if change == 'info'}}
+                <option>{{rank_type_name}}</option>
+                {{else}}
+                {{each indu_choice.rank_type item}}
+                <option value={{item.code}} {{if rank_type==item.code}}selected{{/if}}>{{item.name}}</option>
+                {{/each}}
+                {{/if}}
+                </select>
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">初始账号:</label>
+            </div>
+            <div class={{if change=='info'}}"col-sm-10"{{else}}"col-sm-4"{{/if}}>
+                <input type="text" id="{{model}}_username" name="username" value="{{username}}" {{ if change=='info'
+                       }}disabled{{/if}} class="form-control model_div_input" required placeholder="请输入初始账号" required>
+            </div>
+            {{ if change !=='info' }}
+            <div class="col-sm-2">
+                <label class="model_div_span">初始密码:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="{{model}}_password" name="password" value="{{password}}" {{ if change=='info'
+                       }}disabled{{/if}} class="form-control model_div_input" required placeholder="请输入初始密码" required>
+            </div>
+            {{/if}}
+        </div>
+        <div class="row model_div_row" style="padding-bottom: 0px">
+
+            <div class="col-sm-2">
+                <label class="model_div_span">赋予角色:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="hidden" id="account_acc_id" name="role" value="{{role}}">
+                <input type="text" id="account_acc" name="account_acc" value="{{role_name}}"
+                       {{ if change== 'info'}}disabled{{/if}} class="form-control model_div_input"
+                placeholder="请输入关键字查找" required>
+            </div>
+            <div  id="add_role" class="col-sm-2">
+                <i class="fa fa-plus"/>
+                <label class="model_div_span"><a style="color: #00a65a">新增角色</a></label>
+            </div>
+            <div class="col-sm-4">
+                <div class="checkbox">
+                    <label><input type="checkbox" name="manager" value="true" {{ if change=='info' }}disabled{{/if}}
+                        {{if manager==true}}checked{{/if}}/>是否为管理员</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>

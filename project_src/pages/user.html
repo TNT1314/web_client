@@ -1,0 +1,92 @@
+<div id="page" class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">用户列表</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="list_user" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>渲染引擎</th>
+                            <th>浏览器</th>
+                            <th>平台</th>
+                            <th>引擎版本</th>
+                            <th>引擎版本</th>
+                            <th>平台</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>渲染引擎</th>
+                            <th>浏览器</th>
+                            <th>平台</th>
+                            <th>引擎版本</th>
+                            <th>引擎版本</th>
+                            <th>平台</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="temp_user_tools" type="text/html">
+    <div class="temp_toolbar">
+        <a id='{{model}}_add' {{ if power.add==false }}disabled{{/if}} class="btn btn-app green"> 
+            <i class="fa fa-plus-square-o"></i>新增
+        </a>
+        <a  id='{{model}}_edi' {{ if power.edi==false }}disabled{{/if}} class="btn btn-app green">
+            <i class="fa fa-edit"></i> 修改
+        </a>
+        <a  id='{{model}}_aud' {{ if power.aud==false }}disabled{{/if}} class="btn btn-app green">
+            <i class="fa fa-check-square-o"></i>审批
+        </a>
+        <a  id='{{model}}_del' {{ if power.del==false }}disabled{{/if}} class="btn btn-app red" >
+            <i class="fa fa-trash-o"></i>禁用
+        </a>
+    </div>
+</script>
+
+
+<script id="temp_user_change" type="text/html">
+    <form role="form">
+        <!-- text input -->
+        <div class="form-group modal_div_flex">
+            <label>姓名:</label>
+            <input type="text" class="form-control" placeholder="请输入...">
+        </div>
+        <div class="form-group modal_div_flex">
+            <label>姓名:</label>
+            <input type="text" class="form-control" placeholder="请输入...">
+        </div>
+        <div class="form-group modal_div_flex">
+            <label>姓名:</label>
+            <input type="text" class="form-control" placeholder="请输入...">
+        </div>
+        <div class="form-group modal_div_flex">
+            <label>姓名:</label>
+            <input type="text" class="form-control" placeholder="请输入...">
+        </div>
+        <!-- text input -->
+        <div class="form-group modal_div_flex">
+            <label>姓名:</label>
+            <input type="text" class="form-control" placeholder="请输入...">
+        </div>
+        <div class="form-group modal_div_flex">
+            <label>姓名:</label>
+            <input type="text" class="form-control" placeholder="请输入...">
+        </div>
+        <div class="form-group modal_div_flex">
+            <label>姓名:</label>
+            <input type="text" class="form-control" placeholder="请输入...">
+        </div>
+        <div class="form-group modal_div_flex">
+            <label>姓名:</label>
+            <input type="text" class="form-control" placeholder="请输入...">
+        </div>
+    </form>
+</script>

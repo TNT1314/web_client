@@ -1,0 +1,135 @@
+<div id="person" class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">个人信息</h3>
+    </div>
+    <div class="box-body">
+    </div>
+</div>
+
+<script id="change_person_message" type="text/html">
+    <form class="form" id="change_person_message_form" role="form" >
+        <div class="row model_div_row" style="margin-top: 20px">
+            <div class="col-sm-8"  style="left:15%;">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="model_div_span">密码验证:</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input class="form-control model_div_input" id="per_password" type="password" name="per_password" required placeholder="请输入密码">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="row model_div_row">-->
+            <!--<div class="col-sm-8"  style="left:15%;">-->
+                <!--<div class="row">-->
+                    <!--<div class="col-sm-4">-->
+                        <!--<label class="model_div_span">再次确认:</label>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-8">-->
+                        <!--<input class="form-control model_div_input" id="per_password_sure" type="password" name="per_password_sure" required placeholder="请再次输入旧密码">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </form>
+</script>
+
+<script id="temp_person_change" type="text/html">
+    <form  id="person_form" role="form">
+        <div class="row model_div_row ">
+            <div class="col-sm-6  person_row_col_center" style="left:25%;">
+                <div id="person_avatar_con" style="padding-bottom: 10px;">
+                    <img height="200" width="200" {{ if avatar }} src="{{server}}{{avatar}}" {{else}}
+                         src="images/user2-160x160.jpg" {{ /if }} id="avatar_id"
+                    class="img-circle" alt="用户照片" >
+                </div>
+                <input type="file" id="avatar" class="form-control model_div_input" style="display:none">
+                <input type="hidden" id="avatar_hidden" name="avatar" class="form-control model_div_input">
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-6"  style="left:25%;">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label class="model_div_span">用户名:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control model_div_input" id="username" name="username" value="{{username}}" disabled>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="model_div_span">姓名:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control model_div_input" id="name" name="name" value="{{name}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row model_div_row ">
+            <div class="col-sm-6"  style="left:25%;">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label class="model_div_span">邮箱:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control model_div_input" id="email" name="email" value="{{email}}" placeholder="请输入邮箱" disabled>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="model_div_span">街道:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control model_div_input" id="street_name" name="street_name" value="{{street_name}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row model_div_row ">
+            <div class="col-sm-6"  style="left:25%;">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label class="model_div_span">电话1:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control model_div_input" id="mobile1" name="mobile1" value="{{mobile1}}" placeholder="请输入联系电话1" disabled>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="model_div_span">电话2:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control model_div_input" id="mobile2" name="mobile2" value="{{mobile2}}" placeholder="请输入联系电话2" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row model_div_row model_div_row_hidde">
+            <div class="col-sm-6"  style="left:25%;">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label class="model_div_span">新密码:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control model_div_input" id="password" name="password" placeholder="请输入新密码" required>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="model_div_span">确认密码:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control model_div_input" id="password_sure" name="password_sure" placeholder="请再次输入新密码" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row model_div_row model_div_row_hidde">
+            <div class="col-sm-6"  style="left:25%;">
+                <input id="peoson_submit" class="btn btn-lg btn-primary btn-block" type="button" value="提交"></input>
+            </div>
+        </div>
+        <div class="row model_div_row model_div_row_edit">
+            <div class="col-sm-6"  style="left:25%;">
+                <input id="peoson_edit" class="btn btn-lg btn-primary btn-block" type="button" value="修改信息"></input>
+            </div>
+        </div>
+    </form>
+</script>
+

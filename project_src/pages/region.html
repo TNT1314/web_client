@@ -1,0 +1,175 @@
+<div id="region" class="box box-info">
+    
+    <div class="box-header with-border">
+        <h3 class="box-title">区域列表</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <table id="region_table" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>序列号</th>
+                            <th>区域编码</th>
+                            <th>区域名称</th>
+                            <th>负责人</th>
+                            <th>创建人员</th>
+                            <th>创建时间</th>
+                            <th>修改人员</th>
+                            <th>修改时间</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>序列号</th>
+                            <th>区域编码</th>
+                            <th>区域名称</th>
+                            <th>负责人</th>
+                            <th>创建人员</th>
+                            <th>创建时间</th>
+                            <th>修改人员</th>
+                            <th>修改时间</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="region_table_tools" type="text/html">
+    <div class="temp_toolbar">
+        <div class="temp_toolar_left">
+            {{ if power.see==true }}
+                <div class="temp_toolbar_button_div">
+                    <button type="button" id='{{model}}_inf' class="btn btn-block btn-info btn-sm">
+                        <i class="fa fa-search"></i> 查看
+                    </button>
+                </div>
+            {{ /if }}
+            {{ if power.add==true }}
+                <div class="temp_toolbar_button_div">
+                    <button type="button" id='{{model}}_add' class="btn btn-block btn-success btn-sm">
+                        <i class="fa fa-plus"></i>新增
+                    </button>
+                </div>
+            {{/if}}
+            {{ if power.edi==true }}
+                <div class="temp_toolbar_button_div">
+                    <button type="button" id='{{model}}_edi' class="btn btn-block btn-primary btn-sm">
+                        <i class="fa fa-edit"></i>修改
+                    </button>
+                </div>
+            {{/if}}
+            {{ if power.del==true }}
+                <div class="temp_toolbar_button_div">
+                    <button type="button" id='{{model}}_del' class="btn btn-block btn-danger btn-sm">
+                        <i class="fa fa-trash-o"></i>删除
+                    </button>
+                </div>
+            {{/if}}
+        </div>
+        <div class="temp_toolar_right">
+            <a data-toggle="collapse" data-parent="#accordion" href="#{{model}}_collapseOne">
+                <i class="fa fa-search"></i>高级搜索
+            </a>
+        </div>
+    </div>
+    <div id="{{model}}_collapseOne" class="panel-collapse collapse collapsedown">
+        <div class="panel-body temp_toolbar_search_panel">
+            <div class="row-fluid">
+                <div class="span12">
+                    <span class="temp_toolbar_search_span">区域编码:</span>
+                    <input id="{{model}}_code" class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入区域编码">
+                    <span class="temp_toolbar_search_span">区域名称:</span>
+                    <input id="{{model}}_name"class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入区域名称">
+                    <span class="temp_toolbar_search_span">负责人员:</span>
+                    <input id="{{model}}_hea_cc" class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入负责人名称">
+                    <span class="temp_toolbar_search_span">审核人员:</span>
+                    <input id="{{model}}_adu_cc"class="form-control input-sm temp_toolbar_search_input" type="text" placeholder="请输入审核人员名称">
+                </div>
+            </div>
+            <div class="row-fluid">
+                <button id='{{model}}_search' type="button" class="btn btn-block btn-primary btn-sm">
+                    <i class="fa fa-search"></i> 查询
+                </button>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="temp_region_change" type="text/html">
+    <form id="region_form" role="form">
+        <!-- text input -->
+        <input type="hidden" id="region_id" name="region_id" value="{{id}}" class="form-control">
+        <div class="row model_div_row">
+            <div class="col-sm-2" style="text-align: center">
+                <label class="model_div_span">区域编码:</label>
+            </div>
+            <div class="col-sm-9" >
+                <input type="text" id="region_code" name="region_code" value="{{code}}" class="form-control model_div_input" disabled placeholder="系统自动生成">
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2" style="text-align: center">
+                <label class="model_div_span">区域名称:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="region_name" name="region_name" value="{{name}}" class="form-control model_div_input" 
+                   {{ if change == 'info'}}disabled{{/if}}
+                   placeholder="请输入区域名称" required>
+            </div>
+            <div class="col-sm-2">
+                <label class="model_div_span">区域负责人:</label>
+            </div>
+            <div class="col-sm-2">
+                <input type="hidden" id="head_acc_id" name="head_acc_id" value="{{head_acc}}">
+                <input type="text" id="head_acc" name="head_acc" value="{{head_acc_name}}"
+                   {{ if change == 'info'}}disabled{{/if}} class="form-control model_div_input" placeholder="请输入关键字" required>
+            </div>
+            <div id="add_account" class="col-sm-2">
+                <i class="fa fa-plus"/>
+                <label class="model_div_span"><a style="color: #00a65a">新增用户</a></label>
+            </div>
+        </div>
+        <div class="row model_div_row">
+            <div class="col-sm-2" style="text-align: center">
+                <label class="model_div_span">区域范围:</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="hidden"
+                   id="region_points"
+                   name="region_points"
+                   value="{{points}}"
+                   class="form-control">
+            </div>
+
+        </div>
+        <div id="region_container" class="map_container"  style="height: 400px">
+            <!--<div id="region_container_tools" class="map_tool_div">-->
+                <!--<input type="button" id="region_tool_clear" value="清空区域"/>-->
+                <!--&nbsp;-->
+                <!--<input type="button" class="map_tool_min map_btn" value="最小化"/>-->
+                <!--<input type="button" class="map_tool_max map_btn" value="最大化"/>-->
+            <!--</div>-->
+
+            <div class="map_foots_bar">
+                <div class="row">
+                    <div class="map_div_bar_col">
+                        <i class="iconfont icon-qingchusuoxuan" id="icon_clear"></i>
+                        <button type="button" id="region_tool_clear" class="btn">清除所选</button>
+                    </div>
+                    <div class="map_div_bar_col">
+                        <i class="iconfont icon-fangdatu" id="icon_switch"></i>
+                        <button type="button" id="tool_min" class="btn" style="display:none;">适合大小</button>
+                        <button type="button" id="tool_max" class="btn">全屏显示</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row model_div_row" style="display: none">
+            <input id="{{model}}_submit" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</input>
+        </div>
+    </form>
+</script>

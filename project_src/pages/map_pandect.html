@@ -1,0 +1,844 @@
+<style>
+    #cut_back_div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 147;
+        overflow-y: hidden;
+    }
+
+    #cut_div {
+        position: fixed;
+        border: 1px solid #000000;
+        width: 200px;
+        height: 200px;
+        z-index: 149;
+        cursor: pointer;
+    }
+
+    .minDiv {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background-color: #000000;
+        z-index: 149;
+    }
+
+    .right_down {
+        bottom: -4px;
+        right: -4px;
+        cursor: nwse-resize;
+    }
+
+    #cut_left {
+        position: absolute;
+        width: 506px;
+        z-index: 148;
+        background: rgba(39, 39, 32, 0.39);
+        height: 100%;
+        left: 0;
+        cursor: default;
+    }
+
+    #cut_top {
+        width: 200px;
+        z-index: 148;
+        background: rgba(39, 39, 32, 0.39);
+        height: 303px;
+        left: 506px;
+        top: 0;
+        position: absolute;
+        cursor: default;
+    }
+
+    #cut_right {
+        width: 506px;
+        z-index: 148;
+        background: rgba(39, 39, 32, 0.39);
+        height: 100%;
+        left: 706px;
+        position: absolute;
+        cursor: default;
+    }
+
+    #cut_bottom {
+        width: 200px;
+        z-index: 148;
+        background: rgba(39, 39, 32, 0.39);
+        height: 303px;
+        left: 506px;
+        bottom: 0;
+        position: absolute;
+        cursor: default;
+    }
+    .padding_right {
+        padding-right: 20px;
+    }
+</style>
+<script id="temp_cut_div" type="text/html">
+    <canvas id="cut_canvas"></canvas>
+    <div id="cut_back_div"></div>
+    <div id="cut_div">
+        <div id="right_down" class="minDiv right_down"></div>
+    </div>
+    <div id="cut_left"></div>
+    <div id="cut_top"></div>
+    <div id="cut_right"></div>
+    <div id="cut_bottom"></div>
+</script>
+<div id="map_pandect">
+    <!-- common -->
+    <div class="map_tools_bar">
+        <div class="search_div" style="width: 295px;height: 44px;">
+            <input type="text" id="tool_search" style="height: 38px;width: 235px;margin:3px 10px;border: none;outline: none;box-shadow: none;"  placeholder="搜索商户名称快速定位">
+            <i class="iconfont icon-search"></i>
+        </div>
+        <div id="shop_select_condition_div" class="search_div" style="width:auto; margin-left: 15px">
+            <i id="shop_select_condition" class="iconfont icon-screen" style="float:left; padding-left: 15px;padding-right: 15px"></i>
+            <select class="form-control search_div_select" id="shop_industry" name="industry">
+                <option value="0" >选择商户所属行业</option>
+            </select>
+            <select class="form-control search_div_select" id="shop_check_status" name="industry">
+                <option value="0" >选择商户检测状态</option>
+            </select>
+        </div>
+    </div>
+    地图加载中......
+    <div class="map_foots_bar">
+        <div class="row">
+            <div class="map_div_bar_col">
+                <i class="iconfont icon-shuaxin"></i>
+                <button type="button" id="tool_refesh" class="btn">刷新地图</button>
+            </div>
+            <div class="map_div_bar_col">
+                <i class="iconfont icon-wodeweixingtu"></i>
+                <button type="button" id="tool_plane" class="btn" style="display:none;">二维地图</button>
+                <button type="button" id="tool_moon" class="btn">卫星地图</button>
+            </div>
+            <div class="map_div_bar_col">
+                <i class="iconfont icon-biaozhu"></i>
+                <button type="button" id="tool_markers_no" class="btn" style="display:none;">取消标注</button>
+                <button type="button" id="tool_markers" class="btn">显示标注</button>
+            </div>
+            <div class="map_div_bar_col">
+                <i class="iconfont icon-fangdatu"></i>
+                <button type="button" id="tool_min" class="btn" style="display:none;">适合大小</button>
+                <button type="button" id="tool_max" class="btn">全屏显示</button>
+            </div>
+            <div class="map_div_bar_col">
+                <i class="iconfont icon-dayin"></i>
+                <button type="button" id="tool_cut" class="btn">地图打印</button>
+                <button type="button" id="tool_cut_chancel" class="btn div_button_hidden">取消打印</button>
+            </div>
+        </div>
+    </div>
+    <script src="plugins/vis/vis.min.js"></script>
+</div>
+
+<script id="temp_shop_info" type="text/html">
+    <div >
+        {{ if face_photo1 }}
+            <img id="shop_image_div" src="{{server}}{{face_photo1}}" class="left_image">
+        {{ else }}
+            <img src="{{face_photo1}}" class="left_image">
+        {{ /if}}
+    </div>
+    <div>
+        <div style="color:#999999; float:left">安全员</div>
+        ：{{ region_head_acc }}
+    </div>
+    <div>
+        <div style="color:#999999; float:left">安全员电话</div>
+        ：{{ region_head_phone }}
+    </div>
+    <div>
+        <div style="color:#999999; float:left">负责人</div>
+        ：{{ head_name }}
+    </div>
+    <div>
+        <div style="color:#999999; float:left">负责人电话</div>
+        ：{{ head_phone }}
+    </div>
+    <br>
+    <span class="line"></span>
+</script>
+
+
+<style>
+    #map_pandect {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #3c8dbc;
+        border: 1px solid #e6dcdc;
+    }
+
+    #map_pandect > .map_tools_bar{
+        border-radius: 2px;
+        z-index: 200;
+        top: 20px;
+        left: 20px;
+        height: 44px;
+        width: 700px;
+        text-align: center;
+        line-height: 44px;
+        background-color: rgba(241, 234, 234, 0);
+        position: absolute;
+    }
+    #map_pandect > .map_tools_bar > .search_div{
+        box-shadow: 1px 2px 1px rgba(0,0,0,0.15);
+        background-color: white;
+        float: left;
+    }
+    .search_div > .search_div_select{
+        display: none;
+        float:left;
+        width: 145px;
+        margin-top: 6px;
+        margin-left: 15px;
+        font-size: 12px;
+        line-height: 26px;
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+   .map_tools_left{
+        z-index: 147;
+        left: 20px;
+        top: 10%;
+        width: 360px;
+        max-height: 90%;
+        color: #000000;
+        background: white;
+        position: absolute;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        border: 1px solid #DDDDDD;
+        cursor: default;
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+    }
+
+    .map_tools_info_image {
+        width: 100%;
+        height: 200px;
+        background: white;
+    }
+
+    #map_pandect > .map_foots_bar{
+        bottom: 1px;
+        z-index: 200;
+        left: 2px;
+        width: 40%;
+        height: 38px;
+        text-align: center;
+        line-height: 38px;
+        background: white;
+        position: absolute;
+        box-shadow:1px 2px 1px rgba(0,0,0,0.15);
+        border-radius:2px;
+        padding: 8px 0;
+    }
+
+    .map_div_bar_col {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 2px;
+        width: 20%;
+        height: 22px;
+        float: left;
+        border-left: 1px solid #DDDDDD;
+    }
+    .map_div_bar_col > .btn{
+        background-color: white;
+        font-size: 12px;
+        color: #666666;
+        text-align: center;
+        padding-right: 0;
+        padding-left: 5px;
+    }
+    .map_div_bar_col > .btn:active{
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+    #map_marker_info{
+        border: solid 1px silver;
+        box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.15);
+        width: 320px;
+    }
+
+    #map_marker_info > .info-top {
+        position: relative;
+        background: none repeat scroll 0 0 white;
+        border-bottom: 1px solid white;
+        border-radius: 5px 5px 0 0;
+    }
+
+    #map_marker_info > .info-top > div > div {
+        display: inline-block;
+        color: #3c8dbc;
+        font-size: 14px;
+        font-weight: 900;
+        margin-left: 20px;
+        margin-top: 20px;
+        max-width: 18em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #map_marker_info > .info-top img {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        transition-duration: 0.25s;
+    }
+
+    /*#map_marker_info > .info-top img:hover {*/
+        /*box-shadow: 0px 0px 5px #000;*/
+    /*}*/
+
+    #map_marker_info > .info-middle {
+        color: #666666;
+        font-size: 12px;
+        line-height: 20px;
+        vertical-align: center;
+    }
+
+    #map_marker_info > .info-bottom {
+        height: 0px;
+        width: 100%;
+        clear: both;
+        text-align: center;
+    }
+
+    #map_marker_info > .info-bottom img {
+        position: relative;
+        bottom: 7px;
+        z-index: 104;
+    }
+
+    #map_marker_info > .info-middle img {
+        float: left;
+        margin-right: 10px;
+        height: 80px;
+        max-width:120px;
+    }
+
+    #main_shade {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(222, 222, 207, 0.5);
+        z-index: 149;
+    }
+
+    .map_div_backgroud {
+        background: #f8f8f8;
+
+    }
+
+    .map_div_info_name {
+        font-size: 14px;
+        margin-left: 20px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        font-weight: bold;
+        color:#3c8dbc;
+    }
+
+    .map_div_info_row_top {
+        padding-top: 1em;
+    }
+
+    .map_div_info_row_text_bottom {
+        padding-bottom: 1em;
+    }
+
+    .map_div_info_row_text {
+        font-size: 0.5em;
+        line-height: 2em;
+        margin-left: 20px;
+        margin-right: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .map_div_info_row_text_top {
+        padding-top: 1em;
+        font-size: 0.5em;
+        line-height: 2em;
+        margin-left: 20px;
+        margin-right: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .map_div_info_row_text_left {
+        font-size: 0.5em;
+        line-height: 2em;
+        margin-left: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .map_div_info_row_dark_color {
+        font-size: 12px;
+        margin-left: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color:#666666;
+        margin-bottom: 10px;
+    }
+
+    .map_div_info_row_light_color {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color:#999999;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+
+    .map_div_info_row_text_right {
+        font-size: 0.5em;
+        line-height: 2em;
+        margin-right: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .map_div_info_gap {
+        line-height: 0.2em;
+        background: white;
+    }
+
+    .map_info_details_close {
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+        position: absolute;
+        transition-duration: 0.25s;
+    }
+
+    /*.map_info_details_close:hover {*/
+        /*box-shadow: 0px 0px 5px #000;*/
+    /*}*/
+
+    .map_image_show_div {
+        color: #666666;
+        white-space: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        margin-left: 20px;
+        margin-right: 20px;
+        font-size: 12px;
+    }
+
+    .map_image_show_div > img {
+        width: auto;
+        height: 66px;
+        border: 1px solid rgba(0, 0, 255, 0.17);
+        overflow: scroll;
+    }
+
+    .map_marker_lable {
+        cursor: url(http://webapi.amap.com/theme/v1.3/openhand.cur), default;
+        color: #000000;
+        max-width: 8em;
+        white-space: nowrap;
+        overflow: hidden;
+        font-weight: 700;
+        text-overflow: ellipsis;
+    }
+
+    .div_button_hidden {
+        display: none;
+    }
+
+    #map_info_image > .carousel-inner > .item {
+        align: center;
+        text-align: center;
+
+    }
+
+    #bill_images_list > .carousel-inner > .item {
+        align: center;
+        text-align: center;
+    }
+
+    .line {
+        color: #dddddd;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 10px;
+        border-bottom: 1px solid;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .dashed {
+        border:1px #dddddd dashed;
+        margin-left: 20px;
+        margin-right: 20px;
+        line-height: 1px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .address {
+        display: block;
+        color: #999999;
+        margin-top: 10px;
+        margin-left: 20px;
+        margin-bottom: 20px;
+        font-size: 12px;
+        padding-left: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        font-weight: 100;
+        text-overflow: ellipsis;
+    }
+
+    .left_image {
+        margin-left: 20px;
+    }
+
+    .detail_button {
+        color: #3c8dbc;
+        margin-bottom: 10px;
+        background: white;
+        text-align: center;
+        margin-left: 100px;
+        margin-top: 10px;
+        width: 120px;
+        height: 30px;
+        border: 1px solid #ddd;
+        outline: none
+    }
+    .right_button {
+        margin-top: 15px;
+        margin-right: 20px;
+        color: #3c8dbc;
+        background: white;
+        text-align: center;
+        border: 1px solid #ddd;
+        font-size: 6px;
+        float: right;
+        width:80px;
+        height: 24px;
+        outline: none
+    }
+
+    #shop_image_div{
+        max-width: 120px!important;
+        min-width: 60px;
+    }
+
+    .bootom_image {
+        margin: 0;
+        padding: 0;
+    }
+    .region_name {
+        color: #333333;
+    }
+    .light_color {
+        color: #666666;
+    }
+    .qualified_color {
+        color: #289917;
+        font-weight: bold;
+    }
+    .no_qualified_color {
+        color: #e63939;
+        font-weight: bold;
+    }
+    .no_check_color {
+        color: #e6ac39;
+        font-weight: bold;
+    }
+
+</style>
+
+<script id="temp_shop_details_info" type="text/html">
+    <div class="map_tools_left">
+        <img class="map_info_details_close" src="images/close2.gif">
+        <div style="color:white;" class="map_div_backgroud">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="map_div_info_name ">
+                        {{ name }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="map_div_info_row_dark_color">
+                        &nbsp;编号：{{ code }}
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="map_div_info_row_dark_color">
+                        &nbsp;行业：{{ industry_name }}
+                    </div>
+                </div>
+            </div>
+            <span class="line" style="margin-right: 0px;margin-left: 0px;margin-top: 0px"></span>
+
+            <div style="background: white">
+            <div class="row pa" style="margin-bottom: 10px;margin-right: 20px">
+                <div class="col-sm-12 map_div_info_row_light_color"  style="margin-right: 10px">
+                    <i class="iconfont icon-xingfengaddress" ></i>
+                    {{ address }}{{ detail_address }}
+                </div>
+            </div>
+                <hr class="dashed"/>
+
+            <div class="row">
+                <div class="col-sm-10" style="line-height:20px">
+                    <div class="map_div_info_row_light_color" style="margin-bottom: 0px">
+                        <i class="iconfont icon-xingfengman" style="margin-right: 5px"></i>
+                        负责人：{{ head_name }} {{if head_phone }}({{ head_phone }}){{/if}}
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-10" style="line-height:20px">
+                    <div class="map_div_info_row_light_color" style="margin-bottom: 0px;margin-top: 0px">
+                        <i class="iconfont icon-xingfengman" style="margin-right: 5px;visibility: hidden;"></i>
+                        安全员：{{ region_head_acc }} {{if region_head_phone }}({{ region_head_phone }}){{/if}}
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="map_div_info_gap">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="map_info_image" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#map_info_image" data-slide-to="0" class="active"></li>
+                        <li data-target="#map_info_image" data-slide-to="1" class=""></li>
+                    </ol>
+                    <div class="carousel-inner" style="border-top: 1px solid #ddd">
+                        <div class="item active">
+                            {{ if face_photo1 }}
+                            <img style="width:auto;height:175px;display:inline;" src="{{server}}{{face_photo1}}"
+                                 alt="facebook">
+                            {{ else }}
+                            <img style="width:auto;height:175px;display:inline;" src="images/login_background.png"
+                                 alt="facebook">
+                            {{ /if }}
+                            <div class="carousel-caption"></div>
+                        </div>
+                        <div class="item">
+                            {{ if face_photo2 }}
+                            <img style="width:auto;height:175px;display:inline;" src="{{server}}{{face_photo2}}"
+                                 alt="facebook">
+                            {{ else }}
+                            <img style="width:auto;height:175px;display:inline;" src="images/login_background.png"
+                                 alt="facebook">
+                            {{ /if }}
+                            <div class="carousel-caption"></div>
+                        </div>
+                    </div>
+                    <a class="left carousel-control" href="#map_info_image" data-slide="prev">
+                        <span class="fa fa-angle-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#map_info_image" data-slide="next">
+                        <span class="fa fa-angle-right"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="line" style="margin-top: 0px;margin-left: 0px;margin-right: 0px"></div>
+        <div class="row">
+            <div class="col-sm-12">
+            <div class="col-sm-6">
+                <div class="map_div_info_row_dark_color" style="margin-top: 15px;margin-left: 0px;vertical-align: middle">
+                    <i class="iconfont icon-xingfengcha" style="margin-left: 5px;color:#3c8dbc;font-size: 22px;margin-right: 5px;margin-top: 5px"></i>检查
+                </div>
+            </div>
+                <i class="iconfont icon-man.svg"></i>
+            <div style="float: right">
+                <button id="bill_more" class="right_button" >
+                    查看更多
+                </button>
+            </div>
+            </div>
+
+        </div>
+
+        <span class="line" style="margin-right: 0px;margin-left: 0px;margin-top: 0px" ></span>
+
+        <div style="margin-left:1px;color:white;background: white;">
+            <div class="row ">
+                <div class="col-sm-5">
+                    <div class="map_div_info_row_dark_color" style="margin-top: 10px">
+                        &nbsp;检查周期：{{ check_cycle.code }} 天/次
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="map_div_info_row_dark_color"  style="margin-top: 10px">
+                        &nbsp;预计检查日期：{{ next_check_date }}
+                    </div>
+                </div>
+            </div>
+
+            <hr class="dashed"/>
+            {{ if last_bill }}
+                <div class="row">
+                    <div class="col-sm-12" style="margin-top: 10px">
+                        <div class="map_div_info_row_dark_color" style="float: left">
+                            商户最近一次检查情况：
+                            <!--<a id="bill_more" style="float:right;">更多>></a>-->
+                        </div>
+                        <div style="float: right">
+                            <button id="bill_detail" data-value="{{last_bill.id}}" class="right_button" style="margin-top: 0px;margin-bottom: 10px" >
+                                查看详情
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <hr class="dashed"/>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="map_div_info_row_dark_color" style="margin-top: 10px">
+                            &nbsp;工单编号：{{ last_bill.code }}
+                            <!--<a id="bill_detail" style="float:right;"-->
+                                                               <!--data-value="{{last_bill.id}}">详情>></a>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="map_div_info_row_dark_color">
+                            &nbsp;检查日期：{{ last_bill.checked_date }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="map_div_info_row_dark_color">
+                            &nbsp;检查结果：{{ if last_bill.qualified }}合格{{ else }}不合格{{ /if }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="map_div_info_row_dark_color">
+                            &nbsp;工单类型：{{ last_bill.bill_type_name }}
+                        </div>
+                    </div>
+                    {{ if !last_bill.qualified }}
+                        <div class="col-sm-6">
+                            <div class="map_div_info_row_dark_color">
+                                &nbsp;预计复检：{{ last_bill.recheck_date }}
+                            </div>
+                        </div>
+                    {{ /if }}
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="map_div_info_row_dark_color">
+                            &nbsp;抽查图片：
+                        </div>
+                    </div>
+                </div>
+                <div class="row map_div_info_row_text_bottom">
+                    <div class="col-sm-12">
+                        <div class="map_image_show_div">
+                            {{ if last_bill.images_set.length >0 }}
+                                {{ each last_bill.images_set image}}
+                                    <img class="map_image" src="{{ server }}{{ image.photo}}"></img>
+                                {{/each}}
+                            {{ else }}
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;未上传图片
+                            {{ /if }}
+                        </div>
+                    </div>
+                </div>
+            {{ else }}
+                <div class="row map_div_info_row_text_bottom">
+                    <div class="col-sm-6">
+                        <div class="map_div_info_row_text_left">
+                            &nbsp;还没有该商户的消防检查信息
+                        </div>
+                    </div>
+                </div>
+            {{ /if }}
+        </div>
+    </div>
+</script>
+<style>
+    #big_image_back_div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 250;
+        overflow-y: hidden;
+        background: rgba(39, 39, 32, 0.7);
+        cursor: default;
+    }
+
+    .big_image_common_div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 251;
+        overflow-y: hidden;
+        cursor: default;
+    }
+</style>
+<script id="temp_show_big_image" type="text/html">
+    <div id="big_image_back_div">
+        <i id="close_img" class="fa fa-times fa-2x" style="top:10px;right: 10px;z-index: 1000;position:absolute;color: white" />
+        <div class="row big_image_common_div">
+            <div class="col-sm-12" style="padding-left: 4%;padding-top: 3%">
+                <div id="show_big_image" class="carousel slide" data-ride="carousel" style="text-align: center;">
+                    <ol class="carousel-indicators">
+                        {{each images image index}}
+                        <li data-target="#show_big_image" data-slide-to="{{index}}"
+                            class="{{if index == 0}}active{{/if}}"></li>
+                        {{/each}}
+                    </ol>
+                    <div id="big_image_img_active" class="carousel-inner">
+                        {{each images image index}}
+                        <div class="item {{if index == 0}}active{{/if}}"
+                             style="text-align: center;vertical-align:middle">
+                            <img src="{{image}}" alt="facebook" style="width:auto;display:inline;height: 700px;">
+                            <div class="carousel-caption"></div>
+                        </div>
+                        {{/each}}
+                    </div>
+                    <a class="left carousel-control" href="#show_big_image" data-slide="prev">
+                        <span class="fa fa-angle-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#show_big_image" data-slide="next">
+                        <span class="fa fa-angle-right"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

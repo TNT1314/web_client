@@ -1,0 +1,208 @@
+<div id="dashboard1" class="box box-info">
+    <script src="plugins/chartjs/Chart.min.js"></script>
+    <div class="box-header">
+        <h3 class="box-title">日常统计</h3>
+    </div>
+</div>
+<div id="dashboard2" class="dashboard_box">
+    <div class="row title_top_buttom">
+        <div class="col-lg-12 col-xs-12 check_border_bottom">
+            <div class="check_info">
+                <i class="fa fa-fw fa-th-large"></i>&nbsp;本月商户检查情况
+            </div>
+        </div>
+    </div>
+    <div id="dashboard_select_option" class="row square_top">
+    </div>
+    <div id="dashboard_chunk" class="row square_top">
+    </div>
+</div>
+
+<!--
+    <div class="row title_top_buttom">
+        <div class="col-lg-12 col-xs-12">
+            <h5>
+                <i class="fa fa-fw fa-area-chart"></i>&nbsp;近15天工单情况
+            </h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <div class="chart">
+                <canvas id="areaChart" style="height:300px"></canvas>
+            </div>
+        </div>
+    </div>
+-->
+
+
+<div id="dashboard3" class="dashboard_box">
+    <div class="row title_top_buttom">
+        <div class="col-lg-12 col-xs-12 check_border_bottom">
+            <div class="check_info">
+                <i class="fa fa-fw fa-area-chart"></i>&nbsp;近15天工单情况
+            </div>
+        </div>
+    </div>
+    <div id="summary_of_work_orders_select_option" class="row square_top">
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <div id="chart" class="chart">
+                <canvas id="barChart" style="height:300px"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="temp_summary_of_work_orders_select" type="text/html">
+    {{if account.manager || account.rank_type == 2}}
+        <div class="row option_row_bottom">
+            <div class="col-sm-1">
+                <label class="model_div_span" style="padding-left: 15px">安全员:</label>
+            </div>
+            <div class="col-sm-2 option_padding">
+                <select class="form-control" id="summary_of_work_orders_select">
+                    {{each summary_of_work_orders_list work_order indx}}
+                        <option value="{{work_order.acc_id}}">{{work_order.acc_name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+    {{/if}}
+</script>
+
+<script id="temp_dashboard_select_option" type="text/html">
+    {{if account.manager || account.rank_type == 2}}
+    <div class="row option_row_bottom">
+        <div class="col-sm-1">
+            <label class="model_div_span" style="padding-left: 15px">行业:</label>
+        </div>
+        <div class="col-sm-2 option_padding">
+            <select class="form-control" id="dashboard_select_industry" name="dashboard_select_industry">
+            {{each manage_industry_shop_sta manage_sta}}
+            {{if manage_sta.industry_id}}
+            <option id="{{manage_sta.industry_id}}" value="{{manage_sta.industry_id}}" {{if manage_sta.industry_id=="total"}}selected{{/if}}>{{manage_sta.industry_name}}</option>
+            {{/if}}
+            {{/each}}
+            </select>
+        </div>
+    </div>
+    {{/if}}
+</script>
+
+<script id="temp_dashboard_chunk" type="text/html">
+    <!-- ./col -->
+    {{ if account.manager || account.rank_type == 2}}
+    {{ each manage_industry_shop_sta manage_sta}}
+    {{ if manage_sta.industry_id == ind_id}}
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>{{manage_sta.checked_count}}</h3>
+                <p><strong style="font-size: 20px">已检查</strong>商户数量</p>
+            </div>
+            <div class="icon" style="height: 2em">
+                <i class="fa fa-check-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>{{manage_sta.unchekced_count}}</h3>
+                <p><strong style="font-size: 20px">未检查</strong>商户数量</p>
+            </div>
+            <div class="icon" style="height: 2em">
+                <i class="fa fa-times-circle"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>{{manage_sta.checked_qualit_count}}</h3>
+                <p><strong style="font-size: 20px">检查合格</strong>商户数量</p>
+            </div>
+            <div class="icon" style="height: 2em">
+                <i class="fa fa-thumbs-o-up"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>{{manage_sta.checked_unqualit_count}}</h3>
+                <p><strong style="font-size: 20px">检查不合格</strong>商户数量</p>
+            </div>
+            <div class="icon" style="height: 2em">
+                <i class="fa fa-thumbs-o-down"></i>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+    {{/each}}
+
+    {{else}}
+    {{ each worker_region_shop_sta worker_sta}}
+    {{ if worker_sta.head_acc_id == account.id}}
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>{{worker_sta.checked_count}}</h3>
+                <p><strong style="font-size: 20px">已检查</strong>商户数量</p>
+            </div>
+            <div class="icon" style="height: 2em">
+                <i class="fa fa-check-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>{{worker_sta.unchekced_count}}</h3>
+                <p><strong style="font-size: 20px">未检查</strong>商户数量</p>
+            </div>
+            <div class="icon" style="height: 2em">
+                <i class="fa fa-times-circle"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>{{worker_sta.checked_qualit_count}}</h3>
+                <p><strong style="font-size: 20px">检查合格</strong>商户数量</p>
+            </div>
+            <div class="icon" style="height: 2em">
+                <i class="fa fa-thumbs-o-up"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>{{worker_sta.checked_unqualit_count}}</h3>
+                <p><strong style="font-size: 20px">检查不合格</strong>商户数量</p>
+            </div>
+            <div class="icon" style="height: 2em">
+                <i class="fa fa-thumbs-o-down"></i>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+    {{/each}}
+    {{/if}}
+</script>

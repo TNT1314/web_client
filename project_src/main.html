@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>兴丰街道消防图志-建设者家园</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- jquery ui -->
+    <link rel="stylesheet" href="plugins/jQueryUI/jquery-ui.min.css">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/font-awesome/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="plugins/font-awesome/ionicons.min.css">
+    <!-- dataTables -->
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="plugins/adminlte/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins -->
+    <link rel="stylesheet" href="plugins/adminlte/css/skins/_all-skins.min.css">
+    <!-- Self definded css-->
+    <link rel="stylesheet" href="css/app.css">
+
+    <link rel="stylesheet" type="text/css" href="plugins/project_setting/ionfont/iconfont.css">
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<script id="temp_main_notice_show" type="text/html">
+    <form id="push_message_form" role="form">
+        {{ if change=='add' }}
+        <div class="row model_div_row"> &nbsp;</div>
+        {{ /if }}
+        <div class="row model_div_row">
+            <div class="col-sm-2">
+                <label class="model_div_span">消息标题:</label>
+            </div>
+            {{ if change == 'add' }}
+            <div class="col-sm-10">
+                {{ else }}
+                <div class="col-sm-2">
+                    {{/if}}
+                    <input type="text" id="push_message_title" value="{{message_title}}"
+                           class="form-control model_div_input"
+                           {{ if change=='info'}}disabled{{/if}} required>
+                </div>
+                {{ if change != 'add' }}
+                <div class="col-sm-2">
+                    <label class="model_div_span">消息时间:</label>
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" id="push_message_create_time" value="{{create_time}}"
+                           class="form-control model_div_input"
+                           {{ if change=='info'}}disabled{{/if}} required>
+                </div>
+                <div class="col-sm-2">
+                    <label class="model_div_span">是否已读:</label>
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" id="push_message_is_read" value="{{msg_is_read}}"
+                           class="form-control model_div_input"
+                           {{ if change=='info'}}disabled{{/if}} required>
+                </div>
+                {{/if}}
+            </div>
+            {{ if change=='add' }}
+            <div class="row model_div_row">
+                <div class="col-sm-2">
+                    <label class="model_div_span">推送用户:</label>
+                </div>
+                <div class="col-sm-10">
+                    <input type="hidden" id="push_acc_id" name="push_acc_id" value="{{push_acc}}">
+                    <input type="text" id="push_acc" name="push_acc" value="{{push_acc_name}}"
+                           class="form-control model_div_input" placeholder="请输入用户名关键字查找" required>
+                </div>
+            </div>
+            {{/if}}
+            <div class="row model_div_row">
+                <div class="col-sm-2">
+                    <label class="model_div_span">消息内容:</label>
+                </div>
+                <div class="col-sm-10">
+                    <textarea id="push_message_content" class="form-control" rows="6" placeholder="请输入消息内容"
+                              {{ if change=='info'}}disabled{{/if}} required>
+                    {{message_content}}
+                    </textarea>
+                </div>
+            </div>
+    </form>
+</script>
+<script id="temp_modal_loading_div" type="text/html">
+    <div id="modal_loading_div" class="modal modal_div_show">
+        <div class="modal-dialog" style="color:#FFFFFF;text-align: center;">
+            <i class="fa fa-spin fa-refresh"></i>
+            {{ content }}
+        </div>
+    </div>
+</script>
+
+<script id="temp_modal_alert_div" type="text/html">
+    <div id="modal_alert_div"
+         class="modal {{ if option == 'warn' }}modal-warning{{ else if option=='error'}}modal-danger{{ else if option == 'success'}}modal-success{{else}}modal-info{{/if}} modal_div_show">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align: left;">
+                    <button type="button" class="close alert_colose">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">
+                        <i class="fa {{ if option == 'warn' }}fa-warning{{ else if option=='error' }}fa-ban{{ else if option == 'success'}}fa-check{{else}}fa-info{{/if}}"></i>
+                        {{ if option == 'warn' }}警告{{ else if option=='error'}}错误{{ else if option ==
+                        'success'}}成功{{else}}提示{{/if}}
+                    </h4>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    {{ body }}
+                </div>
+                <div class="modal-footer" style="text-align: right;">
+                    <button type="button" class="btn btn-outline alert_colose">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div id="modal_content_div" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">模态窗口</h4>
+            </div>
+            <div class="modal-body modal_div_dialog" style="text-align:center;font-weight:900;">
+                <p>内容页面</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal_content_cancel" class="btn btn-default pull-left" data-dismiss="modal">
+                    取消
+                </button>
+                <button type="button" id="modal_content_submit" class="btn btn-primary">
+                    确认
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- 模态窗口 -->
+<div id="modal_div" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">模态窗口</h4>
+            </div>
+            <div class="modal-body modal_div_dialog">
+                <p>内容页面</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal_cancel" class="btn btn-default pull-left" data-dismiss="modal">取消
+                </button>
+                <button type="button" id="modal_submit" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="wrapper">
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="#" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini">
+                    <b>图志</b>
+                </span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg">
+                    <b>兴丰街道</b>消防图志
+                </span>
+        </a>
+
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Notifications: style can be found in dropdown.less -->
+                    <li class="dropdown notifications-menu">
+                        <a href="#" id="push_msg_blink" class="dropdown-toggle" data-toggle="dropdown">
+                            <i id="push_msg_blink_i" class="fa fa-bell"></i>
+                            <!--<span class="label label-warning">1</span>-->
+                        </a>
+                        <ul class="dropdown-menu" style="background: #ecf0f5;">
+                            <li class="header">消息通知</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    <div id="ws_msg_pushed" class="msg_body">
+                                    </div>
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#" class="main_push_message_profile" style="padding: 10px">查看所有消息</a>
+                            </li>
+                        </ul>
+                        <div class="notice"  >
+                            <p style="float:right;margin-top:5px;">
+                                <script id="temp_ws_msg_pushed" type="text/html">
+                                    {{each msg_objs msg msg_index}}
+                                    <li id="li_message_{{msg.id}}" class="push_msg_li">
+                                        <lable class="ws_massage_push" data-id="{{msg.id}}" data="{{msg}}"
+                                               style="width:278px;height:57px;position:fixed;"
+                                               for='notice_{{msg.id}}'></lable>
+                                        <a id="notice_{{msg.id}}" href="javascript:void(0);">
+                                            <div>
+                                                <div class="push_msg_title">
+                                                    <i class="fa fa-warning text-aqua"></i>{{msg.message_title}}
+                                                    <div class="push_msg_time">{{msg.create_time}}</div>
+                                                </div>
+                                                <div id="push_msg_content_id" class="push_msg_body">
+                                                    {{msg.message_content}}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    {{ /each }}
+                                </script>
+                    </li>
+
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li id="left_profile" class="dropdown user user-menu">
+                        <script id="temp_left_profile" type="text/html">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                {{if avatar}}
+                                <img src="{{server}}{{avatar}}" class="user-image" alt="{{username}}">
+                                {{else}}
+                                <img src="images/user2-160x160.jpg" class="user-image" alt="{{username}}">
+                                {{/if}}
+                                <span class="hidden-xs">&nbsp;</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header" style="height:125px;text-align: left;padding: 0px">
+
+                                    <div class="pull-left image" style="clear:both;">
+                                        {{if avatar}}
+                                        <img src="{{server}}{{avatar}}" class="img-circle" alt="用户照片" style="width:50px;height:50px;>
+                                        {{else}}
+                                            <img src=" images/user2-160x160.jpg" class="img-circle" alt="用户照片"
+                                        style="width:50px;height:50px;margin-left: 20px;margin-top:20px"">
+                                        {{/if}}
+                                    </div>
+
+                                    <div class="pull-left info"  style="margin-left: 10px;margin-top: 25px">
+
+                                        <span style="color:white">{{name}}</span><br/>
+                                        <span style="color:white">{{username}}</span>
+                                    </div>
+
+                                    <br/>
+
+                                    <div class="bottom info" style="clear:both;color:white;margin-left: 20px;margin-top: 60px">
+                                        所属街道:&nbsp;&nbsp;&nbsp;{{street_name}}
+                                    </div>
+
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="main_person_profile" style="padding: 5px">
+                                        <a href="#"  style="font-size:12px;color:#333333 ">个人信息</a>
+                                    </div>
+                                    <div class="main_login_out" style="padding: 5px">
+                                        <a href="#"  style="font-size:12px;color:#333333">退出</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </script>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div id="right_profile" class="user-panel">
+                <script id="temp_right_profile" type="text/html">
+                    <div class="pull-left image">
+                        {{ if avatar }}
+                        <img src="{{server}}{{ avatar }}" class="img-circle" alt="用户头像">
+                        {{ else }}
+                        <img src="images/user2-160x160.jpg" class="img-circle" alt="用户头像">
+                        {{ /if }}
+                    </div>
+                    <div class="pull-left info">
+                        <p>{{ name }}</p>
+                        <a href="#">
+                            <i class="fa fa-circle text-success"></i> 在线
+                        </a>
+                    </div>
+                </script>
+            </div>
+
+            <!-- search form -->
+            <div class="sidebar-form">
+                <div class="input-group" style="display:grid;">
+                    <input type="text" id="menu-search" class="form-control" placeholder="菜单检索...">
+                    <!--
+                    <span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+-->
+                </div>
+            </div>
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <li class="header">
+                    <i class="fa fa-tv"></i> 我的工作台
+                </li>
+                <script id="temp_menu" type="text/html">
+                    {{ each menus menu}} {{ if menu.childs.length >0 }}
+                    <li class="treeview">
+                        <a id="menu_{{ menu.id }}" data-id="{{ menu.id }}" data-url="{{server}}{{menu.perm_url}}"
+                           data-click='off' data-model='{{ menu.model_name }}' data-name='{{ menu.name }}'
+                           class='click_menu' href="javascript:void(0);">
+                            <i class="fa {{ menu.perm_icon }}"></i>
+                            <span>{{ menu.name }}</span>
+                            <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                <!-- {{ menu.childs.length }}-->
+                                </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            {{ each menu.childs child c_index}}
+                            <li>
+                                <a id="menu_{{ child.id }}" data-id="{{ child.id }}"
+                                   data-url="{{server}}{{ child.perm_url }}" data-click="on"
+                                   data-model='{{ child.model_name }}' data-name='{{ child.name }}' class="click_menu"
+                                   href="javascript:void(0);">
+                                    <i class="fa {{ child.perm_icon }}"></i> {{ child.name }}
+                                </a>
+                            </li>
+                            {{ /each }}
+                        </ul>
+                    </li>
+                    {{ else }}
+                    <li {{ if menu.perm_icon=='fa-chrome' }}class="active" {{/if}}>
+                    <a id="menu_{{ menu.id }}" data-id="{{ menu.id }}" data-url="{{server}}{{menu.perm_url}}"
+                       data-click="on" data-model='{{menu.model_name}}' data-name='{{menu.name}}' class="click_menu"
+                       href="javascript:void(0);">
+                        <i class="fa {{ menu.perm_icon }}"></i>
+                        <span>{{ menu.name }}</span>
+                    </a>
+                    </li>
+                    {{ /if }} {{ /each }}
+                </script>
+            </ul>
+
+            <div class="sidebar-form" style="border:0px;">
+                <div id="menu_footer">
+                    &copy;&nbsp;2017&nbsp;&nbsp;&nbsp;
+                    <a href="http://www.jianshezhejiayuan.com">
+                        <img class="attachment-img" src="images/logo.png" style="height: 14px;margin-top: -3px;"
+                             alt="Attachment Image"/>
+                        Builders Home
+                    </a>
+                </div>
+                <!--
+                                    <div class="input-group" style="display:grid;">
+                                         search form
+                                    </div>
+                -->
+            </div>
+
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+
+    <!-- content begin-->
+    <section class="content-wrapper">
+        <div class="nav-tab">
+            <!-- 此处是相关代码 -->
+            <ul id="main-nav-tab" class="nav nav-tabs nav-tab-ul" role="tablist"></ul>
+            <div id="page_container" class="tab-content"></div>
+            <!-- 相关代码结束 -->
+        </div>
+    </section>
+    <!-- content end-->
+
+
+    <!-- <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>version</b> 1.0.0
+        </div>
+        <strong>
+            Copyright &copy; 2014-2020  &nbsp;&nbsp;&nbsp;
+            <a href="http://www.jianshezhejiayuan.com">
+                <img class="attachment-img" src="images/logo.png" style="height: 14px;margin-top: -3px;" alt="Attachment Image"/>
+                Builders Home
+            </a>.
+        </strong> All rights reserved.
+    </footer> -->
+
+    <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery 2.2.3 -->
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- jqueryui 1.3.0 -->
+    <script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/iCheck/icheck.min.js"></script>
+    <!-- SlimScroll 1.3.0 -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- art-template -->
+    <script src="plugins/art-template/template-web.js"></script>
+    <!-- AdminLTE App -->
+    <script src="plugins/adminlte/js/adminlte.min.js"></script>
+    <!-- validate  -->
+    <script src="plugins/validate/jquery.validate.min.js"></script>
+
+    <!-- settings -->
+    <script src="plugins/project_setting/settings.js"></script>
+    <!-- common -->
+    <script src="plugins/project_setting/common.js"></script>
+    <!-- database -->
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+
+    <script src="plugins/html2canvas/html2canvas.js"></script>
+    <!-- ibs.amap -->
+    <script type="text/javascript"
+            src="http://webapi.amap.com/maps?v=1.3&key=ac0d90e99a5e4892c90d68bc27ab693b"></script>
+    <script src="plugins/project_setting/map/amap_main.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/heartbeat.js"></script>
+</body>
+
+</html>
