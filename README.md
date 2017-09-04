@@ -1,2 +1,2 @@
 # web_client
-note js  evn
+运行环境：notejs，grunt
